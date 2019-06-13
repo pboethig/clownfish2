@@ -105,4 +105,58 @@ class TemplatesTest extends TestCase
         $response->assertStatus(200);
 
     }
+
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function testUpdate()
+    {
+
+
+        $template=
+            [
+                'id'=>  null,
+                'name'=>  'functionaltest',
+                'user_id'=>  1,
+                'project_id'=>  1,
+                'file_path'=>  '/filepath',
+                'file_type'=>  '/xlsx',
+                'is_active'=>  true,
+                'import_table'=>  'import_table',
+                'export_table'=>  'export_table',
+                'adapter_class'=>  'adapter_class',
+            ];
+
+        $response = $this->post( '/api/templates', $template);
+
+        $data = $response->json();
+
+        $template=
+            [
+                'id'=>  $data['id'],
+                'name'=>  'functionaltestUpdate',
+                'user_id'=>  1,
+                'project_id'=>  1,
+                'file_path'=>  '/filepath',
+                'file_type'=>  '/xlsx',
+                'is_active'=>  true,
+                'import_table'=>  'import_table',
+                'export_table'=>  'export_table',
+                'adapter_class'=>  'adapter_class',
+            ];
+
+        $response = $this->put( '/api/templates', $template);
+
+        $data = $response->json();
+
+        $response->assertStatus(200);
+
+        $response = $this->delete( '/api/templates/'. $data['id'], []);
+
+        $response->assertStatus(200);
+
+        $this->assertEquals($template['name'], $data['name']);
+    }
 }

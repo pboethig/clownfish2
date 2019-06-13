@@ -37,6 +37,10 @@ Route::delete('templates/{id}', function(TemplateRepository $templateRepository,
     return (string)$templateRepository->deleteById($id);
 });
 
+Route::put('templates', function(TemplateRepository $templateRepository, Request $request) {
+    return $templateRepository->updateById($request->get('id'), $request->all());
+});
+
 
 Use \App\Repositories\GroupsRepository;
 
