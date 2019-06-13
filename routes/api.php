@@ -29,6 +29,13 @@ Route::get('templates/{id}', function(TemplateRepository $templateRepository, in
     return $templateRepository->getById($id);
 });
 
+Route::post('templates', function(TemplateRepository $templateRepository, Request $request) {
+    return $templateRepository->create($request->all());
+});
+
+Route::delete('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
+    return (string)$templateRepository->deleteById($id);
+});
 
 
 Use \App\Repositories\GroupsRepository;

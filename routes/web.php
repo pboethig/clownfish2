@@ -16,8 +16,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::post('/message', 'MessageController@post');
-
 //Route::get('/', function () {
 //    return view('welcome',
 //                [
@@ -26,7 +24,6 @@ Route::post('/message', 'MessageController@post');
 //    );
 //});
 
-Route::get('/', 'CommentController@index');
 
 Route::get('/page', function () {
     return view('page',
@@ -44,16 +41,4 @@ Route::get('/page', function () {
 Route::get('/pwa', function(){
     return view('vueapp');
 });
-
-Route::post('/submit', 'ContactFormController@submit');
-Route::get('testpusher', function () {
-    event(new App\Events\StatusLiked('Someone'));
-    return "Event has been sent!";
-});
-
-
-Route::get('message/index', 'MessageController@index');
-Route::get('message/send', 'MessageController@send');
-Route::get('message/send', 'MessageController@send');
-Route::get('templates/index', 'TemplateController@index');
 
