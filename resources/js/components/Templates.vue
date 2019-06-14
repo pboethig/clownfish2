@@ -1,100 +1,89 @@
 <template>
-    <div class="flex-center position-ref full-height">
-        <div class="content">
-            <div class="title m-b-md">
-                {{page.title}}
-            </div>
+    <div>
+        <TemplateEditModal2/>
+        <b-button @click="getSelectedRows()">Get Selected Rows</b-button>
+        <ag-grid-vue style="width: 100%; height: 500px;"
+                     class="ag-theme-material"
+                     :columnDefs="columnDefs"
+                     :rowData="rowData"
+                     rowSelection="multiple"
 
-            <button @click="clickHandlerTitle()">
-                Hi, click me!
-            </button>
-            <div class="links">
-                <a href="https://laravel.com/docs">View Laravel Docs</a>
-                <a href="https://vuejs.org/v2/guide/">View Vue Docs</a>
-                <a href="https://laracasts.com">Watch Videos</a>
-            </div>
-        </div>
+                     @grid-ready="onGridReady">
+        </ag-grid-vue>
     </div>
 </template>
 <script>
+    import {AgGridVue} from "ag-grid-vue";
+    import TemplateEditModal2 from './TemplateEditModal2'
     export default {
-        props : [],
-        mounted() {
-            console.log('Component mounted.')
-
+        name: 'App',
+        data() {
+            return {
+                columnDefs: null,
+                rowData: null,
+                gridApi: null,
+                columnApi: null,
+                autoGroupColumnDef: null,
+                isModalVisible: false,
+            }
         },
-
-        ready() {
-            console.log('Component ready.')
+        components: {
+            AgGridVue,
+            TemplateEditModal2
         },
-        data(){
+        methods: {
+            onGridReady(params) {
+                this.gridApi = params.api;
+                this.columnApi = params.columnApi;
+            },
+            getSelectedRows() {
+                const selectedNodes = this.gridApi.getSelectedNodes();
+                const selectedData = selectedNodes.map(node => node.data);
 
-            return{
-                page:{
-                    title:'a title'
+                const selectedDataStringPresentation = selectedData.map(node => node.id + ' ' + node.name).join(', ');
+                //alert(`Selected nodes: ${selectedDataStringPresentation}`);
+
+                this.showModal();
+
+            },
+            showModal() {
+                this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
+            },
+            hideModal() {
+                this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+            },
+            toggleModal() {
+                this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
+            }
+        },
+        beforeMount() {
+            this.columnDefs = [
+                {headerName: 'ID', field: 'id', sortable: true, filter: true, checkboxSelection: true},
+                {headerName: 'Name', field: 'name', sortable: true, filter: true},
+                {headerName: 'UserId', field: 'user_id', sortable: true, filter: true},
+                {headerName: 'Project', field: 'project_id', sortable: true, filter: true, rowGroup: true},
+                {headerName: 'Groups', field: 'groups'},
+                {headerName: 'File Type', field: 'file_type', sortable: true, filter: true},
+                {headerName: 'Is Active', field: 'is_active', sortable: true, filter: true},
+                {headerName: 'Import Table', field: 'import_table', sortable: true, filter: true},
+                {headerName: 'Export Table', field: 'export_table', sortable: true, filter: true},
+                {headerName: 'Adapter Class', field: 'adapter_class', sortable: true, filter: true},
+                {headerName: 'Created At', field: 'created_at', sortable: true, filter: true},
+                {headerName: 'Updated At', field: 'updated_at', sortable: true, filter: true},
+            ];
+
+            this.autoGroupColumnDef = {
+                headerName: 'Project',
+                field: 'project_id',
+                cellRenderer: 'agGroupCellRenderer',
+                cellRendererParams: {
+                    checkbox: true
                 }
-            }
-        },
-        methods:
-        {
-            clickHandlerTitle : function()
-            {
-                alert('111');
-                this.page.title='sadasdasd';
-            }
-        }
+            };
 
+            fetch('/api/templates')
+                .then(result => result.json())
+                .then(rowData => this.rowData = rowData);
+        }
     }
 </script>
-<style scoped>
-    html, body {
-        background-color: #fff;
-        color: #636b6f;
-        font-family: 'Raleway', sans-serif;
-        font-weight: 100;
-        height: 100vh;
-        margin: 0;
-    }
-
-    .full-height {
-        height: 100vh;
-    }
-
-    .flex-center {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-    }
-
-    .position-ref {
-        position: relative;
-    }
-
-    .top-right {
-        position: absolute;
-        right: 10px;
-        top: 18px;
-    }
-
-    .content {
-        text-align: center;
-    }
-
-    .title {
-        font-size: 84px;
-    }
-
-    .links > a {
-        color: #636b6f;
-        padding: 0 25px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: .1rem;
-        text-decoration: none;
-        text-transform: uppercase;
-    }
-
-    .m-b-md {
-        margin-bottom: 30px;
-    }
-</style>

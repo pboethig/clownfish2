@@ -13,6 +13,11 @@ class TemplatesTableSeeder extends Seeder
      */
     public function run()
     {
+
+        for ($i = 0; $i < 10000; $i++) {
+
+
+
         DB::table('templates')->insert(
             [
                 'name'     => Str::random(10),
@@ -27,5 +32,6 @@ class TemplatesTableSeeder extends Seeder
                 'adapter_class' => 'adapter_class',
             ]
         );
+        }
     }
 }

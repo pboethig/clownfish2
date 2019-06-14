@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-window.axios = require('axios');
-Vue.use(VueRouter)
+import BootstrapVue from 'bootstrap-vue'
 
+Vue.use(VueRouter)
+Vue.use(BootstrapVue)
+window.axios = require('axios');
+import VueRouter from 'vue-router'
+import 'ag-grid-enterprise';
 import App from './components/App'
 import Templates from './components/Templates'
 import Page from './components/Page'
