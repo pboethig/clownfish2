@@ -83,7 +83,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <welcome :title="'{{$title}}'"></welcome>
+                    <templates :title="'{{$title}}'"></templates>
                 </div>
 
                 <div class="links">

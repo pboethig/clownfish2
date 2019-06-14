@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <welcome :title="'This cool app'"></welcome>
+    <templates :title="'This cool app'"></templates>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

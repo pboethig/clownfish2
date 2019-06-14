@@ -4,7 +4,7 @@ window.axios = require('axios');
 Vue.use(VueRouter)
 
 import App from './components/App'
-import Welcome from './components/Welcome'
+import Templates from './components/Templates'
 import Page from './components/Page'
 import Contact from './components/Contact'
 
@@ -12,9 +12,9 @@ const router = new VueRouter({
     mode: 'hash',
     routes: [
         {
-            path: '/home',
-            name: 'welcome',
-            component: Welcome,
+            path: '/templates',
+            name: 'templates',
+            component: Templates,
             props: { title: "This is the SPA home" }
         },
         {
