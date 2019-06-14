@@ -44,4 +44,12 @@ class Project extends Eloquent
 		'export_table',
 		'adapter_class'
 	];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Temlate');
+    }
 }

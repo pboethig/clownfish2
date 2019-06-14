@@ -49,4 +49,12 @@ class Template extends Eloquent
 		'export_table',
 		'adapter_class'
 	];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class,'project_id', 'project_id');
+    }
 }

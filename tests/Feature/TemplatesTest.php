@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Support\Str;
+use App\Models\Template;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TemplatesTest extends TestCase
 {
@@ -71,6 +70,14 @@ class TemplatesTest extends TestCase
 
         $this->assertEquals($templateList[0]['id'], $template['id']);
 
+        /** @var  $model Template*/
+        $model = Template::find($template['project_id']);
+
+        $this->assertGreaterThan(0, $model->projects()->get()->count());
+
+        foreach ($model->projects()->get() as $project) {
+            $this->assertEquals($project->project_id, $template['project_id']);
+        }
     }
 
 
