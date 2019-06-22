@@ -21,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Use \App\Repositories\TemplateRepository;
 
-Route::get('templates', function(TemplateRepository $templateRepository) {
-    return $templateRepository->all();
-});
+Route::get('templates', 'Api\TemplatesController@index');
 
 Route::get('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
     return $templateRepository->getById($id);
@@ -32,6 +30,7 @@ Route::get('templates/{id}', function(TemplateRepository $templateRepository, in
 Route::post('templates', function(TemplateRepository $templateRepository, Request $request) {
     return $templateRepository->create($request->all());
 });
+
 
 Route::delete('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
     return (string)$templateRepository->deleteById($id);

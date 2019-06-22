@@ -9,11 +9,11 @@
                         </legend>
 
                         <b-list-group>
-                            <b-list-group-item>ID: {{is_active}}</b-list-group-item>
+                            <b-list-group-item>Active: {{is_active}}</b-list-group-item>
                             <b-list-group-item>ID: {{id}}</b-list-group-item>
                             <b-list-group-item>Name: {{name}}</b-list-group-item>
-                            <b-list-group-item>User: {{user_id}}</b-list-group-item>
-                            <b-list-group-item>Project: {{project_id}}</b-list-group-item>
+                            <b-list-group-item>User: {{user_id}}) Name {{user_name}}</b-list-group-item>
+                            <b-list-group-item>Project: {{project_id}} ) Name: {{project_name}}</b-list-group-item>
                             <b-list-group-item>FileType: {{file_type}}</b-list-group-item>
                             <b-list-group-item>FilePath: {{file_path}}</b-list-group-item>
                             <b-list-group-item>ImportTable:  {{import_table}}</b-list-group-item>
@@ -85,14 +85,28 @@
                     {
                         get() {
 
-                            return this.currentTemplate[0].user_id;
+                            return this.currentTemplate[0].user.id;
+                        }
+                    },
+                user_name:
+                    {
+                        get() {
+
+                            return this.currentTemplate[0].user.name;
                         }
                     },
                 project_id:
                     {
                         get() {
 
-                            return this.currentTemplate[0].project_id;
+                            return this.currentTemplate[0].project.name;
+                        }
+                    },
+                project_name:
+                    {
+                        get() {
+
+                            return this.currentTemplate[0].project.name;
                         }
                     },
                 id:

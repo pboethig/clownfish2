@@ -7,6 +7,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -50,11 +51,26 @@ class Template extends Eloquent
 		'adapter_class'
 	];
 
+    protected $with=[
+        'project',
+        'user'
+    ];
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function projects()
+    public function project()
     {
-        return $this->hasMany(Project::class,'project_id', 'project_id');
+        return $this->hasOne(Project::class,'project_id', 'project_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class,'id', 'user_id');
+    }
+
+
 }
