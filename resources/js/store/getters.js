@@ -1,6 +1,9 @@
 let getters = {
-    comments: state => {
-        return state.comments
+    templates: state => {
+        return state.templates
+    },
+    currentTemplate: state => {
+        return state.currentTemplate
     }
 }
 

@@ -2,7 +2,7 @@
     <div>
         <TemplateEditModal2/>
         <b-button @click="getSelectedRows()">Get Selected Rows</b-button>
-        <ag-grid-vue style="width: 100%; height: 500px;"
+        <ag-grid-vue style="width: 100%; height: 800px;"
                      class="ag-theme-material"
                      :columnDefs="columnDefs"
                      :rowData="rowData"
@@ -15,8 +15,10 @@
 <script>
     import {AgGridVue} from "ag-grid-vue";
     import TemplateEditModal2 from './TemplateEditModal2'
+    import store from '../store/index'
     export default {
-        name: 'App',
+        store,
+        name: 'Templates',
         data() {
             return {
                 columnDefs: null,
@@ -29,39 +31,75 @@
         },
         components: {
             AgGridVue,
-            TemplateEditModal2
+            TemplateEditModal2,
+            store
         },
         methods: {
+
             onGridReady(params) {
                 this.gridApi = params.api;
                 this.columnApi = params.columnApi;
             },
+
+            /**
+             * Gets selected row
+             */
             getSelectedRows() {
                 const selectedNodes = this.gridApi.getSelectedNodes();
+
+                if (typeof selectedNodes === "undefined") {
+                    this.$swal('Select at least one row');
+                }
+
                 const selectedData = selectedNodes.map(node => node.data);
 
                 const selectedDataStringPresentation = selectedData.map(node => node.id + ' ' + node.name).join(', ');
                 //alert(`Selected nodes: ${selectedDataStringPresentation}`);
 
-                this.showModal();
+                this.showModal(selectedData);
 
             },
-            showModal() {
+            /**
+             * Shows modal
+             */
+            showModal(selectedData) {
+                this.setCurrentTemplate(selectedData);
                 this.$root.$emit('bv::show::modal', 'modal-1', '#btnShow')
             },
+            /**
+             * Hides modal
+             */
             hideModal() {
                 this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
             },
-            toggleModal() {
-                this.$root.$emit('bv::toggle::modal', 'modal-1', '#btnToggle')
-            }
+            /**
+             * set current template
+             *
+             * @param selectedData
+             */
+            setCurrentTemplate(selectedData) {
+                store.commit('SET_CURRENT_TEMPLATE', selectedData);
+            },
+            /**
+             * Get current btemplate
+             *
+             * @returns {*}
+             */
+            getCurrentTemplate() {
+                return store.state.getCurrentTemplate;
+            },
+
         },
+        computed:
+            {
+
+            },
         beforeMount() {
             this.columnDefs = [
                 {headerName: 'ID', field: 'id', sortable: true, filter: true, checkboxSelection: true},
                 {headerName: 'Name', field: 'name', sortable: true, filter: true},
                 {headerName: 'UserId', field: 'user_id', sortable: true, filter: true},
-                {headerName: 'Project', field: 'project_id', sortable: true, filter: true, rowGroup: true},
+                {headerName: 'Project', field: 'project_id', sortable: true, filter: true},
                 {headerName: 'Groups', field: 'groups'},
                 {headerName: 'File Type', field: 'file_type', sortable: true, filter: true},
                 {headerName: 'Is Active', field: 'is_active', sortable: true, filter: true},
@@ -72,14 +110,6 @@
                 {headerName: 'Updated At', field: 'updated_at', sortable: true, filter: true},
             ];
 
-            this.autoGroupColumnDef = {
-                headerName: 'Project',
-                field: 'project_id',
-                cellRenderer: 'agGroupCellRenderer',
-                cellRendererParams: {
-                    checkbox: true
-                }
-            };
 
             fetch('/api/templates')
                 .then(result => result.json())

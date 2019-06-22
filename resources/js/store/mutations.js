@@ -1,9 +1,12 @@
 let mutations = {
-    GET_COMMENTS(state, comments) {
-        state.comments = comments
+    GET_TEMPLATES(state, templates) {
+        state.templates = templates
     },
-    ADD_COMMENT(state, comment) {
-        state.comments = [...state.comments, comment]
+    ADD_TEMPLATES(state, template) {
+        state.templates = [...state.templates, template]
+    },
+    SET_CURRENT_TEMPLATE(state, template) {
+        state.currentTemplate = template
     }
 }
 

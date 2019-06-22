@@ -1,4 +1,6 @@
 let state = {
-    comments: []
+    templates: [],
+    currentTemplate:null,
+    test:'asdsad'
 }
 export default  state

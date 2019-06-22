@@ -1,15 +1,24 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
-
-Vue.use(VueRouter)
-Vue.use(BootstrapVue)
-window.axios = require('axios');
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import 'ag-grid-enterprise';
 import App from './components/App'
 import Templates from './components/Templates'
 import Page from './components/Page'
 import Contact from './components/Contact'
+import VueSweetalert2 from 'vue-sweetalert2';
+
+
+
+window.axios = require('axios');
+Vue.use(VueRouter);
+Vue.use(BootstrapVue);
+Vue.use(Vuex);
+Vue.use(VueSweetalert2);
+
+
+
 
 const router = new VueRouter({
     mode: 'hash',
@@ -42,10 +51,10 @@ const router = new VueRouter({
             }
         },
     ],
-})
+});
 
 const app = new Vue({
     el: '#app',
-    components: { App },
+    components: { App},
     router,
 });
