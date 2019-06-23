@@ -1,6 +1,6 @@
 let state = {
     templates: [],
     currentTemplate:null,
-    test:'asdsad'
+    test:'asdsad',
 }
 export default  state

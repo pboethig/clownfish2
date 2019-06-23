@@ -27,6 +27,7 @@
                 columnApi: null,
                 autoGroupColumnDef: null,
                 isModalVisible: false,
+
             }
         },
         components: {
@@ -47,7 +48,7 @@
             getSelectedRows() {
                 const selectedNodes = this.gridApi.getSelectedNodes();
 
-                if (typeof selectedNodes === "undefined") {
+                if (!selectedNodes.length) {
                     this.$swal('Select at least one row');
                 }
 
@@ -98,11 +99,8 @@
             this.columnDefs = [
                 {headerName: 'ID', field: 'id', sortable: true, filter: true, checkboxSelection: true},
                 {headerName: 'Name', field: 'name', sortable: true, filter: true},
-                {headerName: 'UserId', field: 'user_id', sortable: true, filter: true},
                 {headerName: 'User Name', field: 'user.name', sortable: true, filter: true},
-                {headerName: 'Project', field: 'project_id', sortable: true, filter: true},
                 {headerName: 'Project Name', field: 'project.name', sortable: true, filter: true},
-                {headerName: 'Groups', field: 'groups'},
                 {headerName: 'File Type', field: 'file_type', sortable: true, filter: true},
                 {headerName: 'Is Active', field: 'is_active', sortable: true, filter: true},
                 {headerName: 'Import Table', field: 'import_table', sortable: true, filter: true},

@@ -34,7 +34,7 @@ class Template extends Eloquent
 	protected $casts = [
 		'user_id' => 'int',
 		'project_id' => 'int',
-		'groups' => 'json',
+		//'groups' => 'json',
 		'is_active' => 'bool'
 	];
 
@@ -42,7 +42,7 @@ class Template extends Eloquent
 		'name',
 		'user_id',
 		'project_id',
-		'groups',
+		//'groups',
 		'file_path',
 		'file_type',
 		'is_active',

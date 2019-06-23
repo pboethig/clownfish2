@@ -3,28 +3,39 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Template;
 use App\Repositories\TemplateRepository;
 use Illuminate\Http\Request;
 
 class TemplatesController extends Controller
 {
     /**
-     * @return mixed
+     * @var TemplateRepository
      */
-    public function index(TemplateRepository $templateRepository)
+    private $templateRepository;
+
+    public function __construct(TemplateRepository $templateRepository)
     {
-        return $templateRepository->all();
+        $this->templateRepository = $templateRepository;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
-    public function store(Request $request)
+    public function index()
     {
-        //
+        return $this->templateRepository->all();
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Template $template
+     *
+     * @return \App\Models\Template
+     */
+    public function store(Request $request, Template $template)
+    {
+        return $this->templateRepository->save($template->fill($request->all()));
     }
 
     /**
@@ -39,15 +50,14 @@ class TemplatesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Template $template
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \App\Models\Template
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Template $template)
     {
-        //
+        return $this->templateRepository->save($template->fill($request->all()));
     }
 
     /**

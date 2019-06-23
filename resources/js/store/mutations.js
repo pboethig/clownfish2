@@ -7,6 +7,9 @@ let mutations = {
     },
     SET_CURRENT_TEMPLATE(state, template) {
         state.currentTemplate = template
+    },
+    SET_GRID_API(state, gridApi) {
+        state.gridApi = gridApi
     }
 }
 

@@ -3,11 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\Template;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class TemplatesTest extends TestCase
 {
+
+    use DatabaseTransactions;
+
     /**
      * A basic feature test example.
      *
@@ -69,15 +72,6 @@ class TemplatesTest extends TestCase
         $this->assertArrayHasKey('updated_at', $template);
 
         $this->assertEquals($templateList[0]['id'], $template['id']);
-
-        /** @var  $model Template*/
-        $model = Template::find($template['project_id']);
-
-        $this->assertGreaterThan(0, $model->projects()->get()->count());
-
-        foreach ($model->projects()->get() as $project) {
-            $this->assertEquals($project->project_id, $template['project_id']);
-        }
     }
 
 
@@ -154,16 +148,22 @@ class TemplatesTest extends TestCase
                 'adapter_class'=>  'adapter_class',
             ];
 
-        $response = $this->put( '/api/templates', $template);
+        $response = $this->put( '/api/templates/'.$template['id'], $template);
 
         $data = $response->json();
 
+        $this->assertEquals($data['name'], $template['name']);
+
+        $getResponse = $this->get('/api/templates/'.$data['id']);
+
+        $data = $getResponse->json();
+
+        $data['name']="anothername";
+
+        $response = $this->put( '/api/templates/'.$data['id'], $data);
+
+        $this->assertEquals($data['name'], $response->json()['name']);
+
         $response->assertStatus(200);
-
-        $response = $this->delete( '/api/templates/'. $data['id'], []);
-
-        $response->assertStatus(200);
-
-        $this->assertEquals($template['name'], $data['name']);
     }
 }

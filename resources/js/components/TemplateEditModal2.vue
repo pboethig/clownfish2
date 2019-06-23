@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-modal id="modal-1">
+        <b-modal id="modal-1"  @ok="handleOk"  size="xl">
+            <form ref="form" @submit.stop.prevent="handleSubmit">
             <div v-if="this.getCurrentTemplate().id">
                 <b-container fluid>
                     <fieldset>
@@ -26,7 +27,6 @@
                         <b-form-group label="Is active:">
                             <input type="checkbox" id="checkbox" v-model="is_active">
                             <label for="checkbox">{{is_active}}</label>
-
                         </b-form-group>
 
                         <b-form-group label="Name:">
@@ -44,7 +44,7 @@
                     </fieldset>
                 </b-container>
             </div>
-            <b-button @click="hideModal">Close Me</b-button>
+            </form>
         </b-modal>
     </div>
 </template>
@@ -52,7 +52,6 @@
 <script>
 
     import {mapState} from 'vuex'
-
     export default {
         computed:
             {
@@ -64,21 +63,16 @@
                             return this.currentTemplate[0].is_active;
                         },
                         set: function(newValue) {
-
-
                             this.currentTemplate[0].is_active = newValue;
-
                         }
                     },
                 name:
                     {
                         get() {
-
                             return this.currentTemplate[0].name;
                         },
                         set: function(newValue) {
                             this.currentTemplate[0].name = newValue;
-
                         }
                     },
                 user_id:
@@ -112,7 +106,6 @@
                 id:
                     {
                         get() {
-
                             return this.currentTemplate[0].id;
                         }
                     }
@@ -166,6 +159,19 @@
             },
             getCurrentTemplate() {
                 return this.currentTemplate[0];
+            },
+            handleOk() {
+                return new Promise((resolve, reject) => {
+                    axios.put('/api/templates/'+this.currentTemplate[0].id, this.currentTemplate[0])
+                        .then(response => {
+                            console.log(response);
+                            resolve(response);
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            reject(error.response.data)
+                        })
+                })
             }
         }
     }

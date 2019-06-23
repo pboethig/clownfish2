@@ -21,24 +21,21 @@ use Illuminate\Support\Facades\Route;
 
 Use \App\Repositories\TemplateRepository;
 
+/**
+ * Templates
+ */
 Route::get('templates', 'Api\TemplatesController@index');
+Route::post('templates', 'Api\TemplatesController@store');
+Route::put('templates/{template}', 'Api\TemplatesController@update');
 
 Route::get('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
     return $templateRepository->getById($id);
 });
 
-Route::post('templates', function(TemplateRepository $templateRepository, Request $request) {
-    return $templateRepository->create($request->all());
-});
-
-
 Route::delete('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
     return (string)$templateRepository->deleteById($id);
 });
 
-Route::put('templates', function(TemplateRepository $templateRepository, Request $request) {
-    return $templateRepository->updateById($request->get('id'), $request->all());
-});
 
 
 Use \App\Repositories\GroupsRepository;

@@ -19,4 +19,16 @@ class TemplateRepository extends BaseRepository
     {
         return Template::class;
     }
+
+    /**
+     * @param \App\Models\Template $template
+     *
+     * @return \App\Models\Template
+     */
+    public function save(Template $template) : Template
+    {
+        $template->save();
+
+        return $template;
+    }
 }
