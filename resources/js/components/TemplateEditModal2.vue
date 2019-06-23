@@ -14,7 +14,7 @@
                                 <b-list-group-item>ID: {{id}}</b-list-group-item>
                                 <b-list-group-item>Name: {{name}}</b-list-group-item>
                                 <b-list-group-item>User: {{user_id}}) Name {{user_name}}</b-list-group-item>
-                                <b-list-group-item>Project: {{project_id}} ) Name: {{project_name}}</b-list-group-item>
+                                <b-list-group-item>Project: {{project_name}}</b-list-group-item>
                                 <b-list-group-item>FileType: {{file_type}}</b-list-group-item>
                                 <b-list-group-item>FilePath: {{file_path}}</b-list-group-item>
                                 <b-list-group-item>ImportTable: {{import_table}}</b-list-group-item>

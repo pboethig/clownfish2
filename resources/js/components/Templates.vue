@@ -1,7 +1,7 @@
 <template>
     <div>
         <TemplateEditModal2/>
-        <b-button @click="getSelectedRows()">Get Selected Rows</b-button>
+        <b-button @click="getSelectedRows()">Edit Template</b-button>
         <ag-grid-vue style="width: 100%; height: 800px;"
                      class="ag-theme-material"
                      :columnDefs="columnDefs"
