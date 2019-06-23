@@ -43,6 +43,12 @@ return [
 
     'disks' => [
 
+        'imports_templates' => [
+            'driver' => 'local',
+            'root' => storage_path('app/imports/templates'),
+            'url' => env('APP_URL').'/import/templates',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

@@ -26,6 +26,8 @@ Use \App\Repositories\TemplateRepository;
  */
 Route::get('templates', 'Api\TemplatesController@index');
 Route::post('templates', 'Api\TemplatesController@store');
+Route::post('templates/{template}/upload', 'Api\TemplatesController@upload');
+Route::post('templates/{template}/processUploadedFile', 'Api\TemplatesController@processUploadedFile');
 Route::put('templates/{template}', 'Api\TemplatesController@update');
 
 Route::get('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
