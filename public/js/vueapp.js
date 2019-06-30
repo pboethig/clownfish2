@@ -1888,6 +1888,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1977,6 +1981,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         fixed: true,
         width: 100
       }, {
+        text: 'Created At',
+        value: 'created_at',
+        fixed: true,
+        width: 100
+      }, {
+        text: 'Updated At',
+        value: 'updated_at',
+        fixed: true,
+        width: 100
+      }, {
         text: 'Actions',
         value: 'name',
         sortable: false,
@@ -1985,27 +1999,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
+    /**
+     * Open edit Dialog
+     */
     openEditDialog: function openEditDialog(template) {
       this.showTemplateEditModal = true;
-      alert('dasd');
       this.$store.dispatch('setCurrentTemplate', template);
-    },
-
-    /**
-     * Handles okay button
-     */
-    handleOk: function handleOk() {
-      var _this2 = this;
-
-      var self = this;
-      return new Promise(function (resolve, reject) {
-        axios.put('/api/templates/' + _this2.currentTemplate[0].id, _this2.currentTemplate[0]).then(function (response) {
-          resolve(response);
-          self.upload();
-        })["catch"](function (error) {
-          reject(error.response.data);
-        });
-      });
     }
   }
 });
@@ -2152,6 +2151,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       var self = this;
       var formData = new FormData();
+
+      if (typeof this.currentTemplate.file === "undefined") {
+        return;
+      }
+
       formData.append('file', this.currentTemplate.file);
       return new Promise(function (resolve, reject) {
         axios.post('/api/templates/' + _this2.currentTemplate.id + '/upload', formData, {
@@ -2185,6 +2189,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       });
     },
+
+    /**
+     * Save template
+     *
+     * @returns {Promise<any>}
+     */
     saveTemplate: function saveTemplate() {
       var _this4 = this;
 
@@ -2193,6 +2203,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           resolve(response);
 
           _this4.upload();
+
+          _this4.show = false;
         })["catch"](function (error) {
           reject(error.response.data);
         });
@@ -6394,7 +6406,8 @@ var render = function() {
       _c(
         "v-card-title",
         [
-          _vm._v("\n        Verfügbare Templates\n        "),
+          _c("h1", [_vm._v("Available Templates")]),
+          _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
           _c("v-text-field", {
@@ -6491,13 +6504,29 @@ var render = function() {
                       _vm._v(_vm._s(props.item.export_table))
                     ]),
                     _vm._v(" "),
+                    _c("td", { staticClass: "text-xs-left" }, [
+                      _vm._v(_vm._s(props.item.created_at))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-xs-left" }, [
+                      _vm._v(_vm._s(props.item.updated_at))
+                    ]),
+                    _vm._v(" "),
                     _c(
                       "td",
                       { staticClass: "text-xs-left layout px-0" },
                       [
                         _c(
                           "v-icon",
-                          { staticClass: "mr-2", attrs: { color: "success" } },
+                          {
+                            staticClass: "mr-2",
+                            attrs: { color: "success" },
+                            on: {
+                              click: function($event) {
+                                return _vm.openEditDialog(props.item)
+                              }
+                            }
+                          },
                           [
                             _vm._v(
                               "\n                        edit\n                    "
@@ -6633,7 +6662,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("is_active")])],
+                        [_c("v-list-tile-title", [_vm._v("Is Active")])],
                         1
                       )
                     ],
@@ -49099,6 +49128,9 @@ var actions = {
       items: items,
       totalItems: totalItems
     });
+  },
+  saveTemplate: function saveTemplate(context, template) {
+    context.commit('_saveTemplate', template);
   },
   queryItems: function queryItems(context, searchTerm) {
     return new Promise(function (resolve, reject) {

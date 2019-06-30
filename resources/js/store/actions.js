@@ -35,6 +35,14 @@ let actions = {
     _setItems(context, items, totalItems) {
         context.commit('_setItems', {items, totalItems})
     },
+    saveTemplate(context, template) {
+
+
+        context.commit('_saveTemplate', template)
+
+
+
+    },
 
 
     queryItems (context, searchTerm) {

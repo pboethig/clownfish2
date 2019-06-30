@@ -3,7 +3,6 @@
               dark
               transition="dialog-bottom-transition"
               scrollable>
-
         <v-card>
             <v-card-title>
                 Edit Template {{name}}
@@ -15,10 +14,11 @@
                             <v-checkbox v-model="is_active" @click.prevent=""></v-checkbox>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title>is_active</v-list-tile-title>
+                            <v-list-tile-title>Is Active</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-flex>
+
                 <v-flex xs12 sm6 md3>
                     <v-text-field
                             label="Name *"
@@ -128,6 +128,11 @@
 
                 let formData = new FormData();
 
+                if(typeof this.currentTemplate.file === "undefined")
+                {
+                    return;
+                }
+
                 formData.append('file', this.currentTemplate.file);
 
                 return new Promise((resolve, reject) => {
@@ -150,7 +155,7 @@
 
                     }).catch(function (error) {
 
-                        reject(error.response.data)
+                        reject(error.response.data);
 
                         alert('FAILURE Uploading');
                     });
@@ -160,10 +165,10 @@
             /**
              * Process UploadedFile
              */
-            processUploadedFile() {
-
-                return new Promise((resolve, reject) => {
-
+            processUploadedFile()
+            {
+                return new Promise((resolve, reject) =>
+                {
                     axios.post('/api/templates/' + this.currentTemplate.id + '/processUploadedFile?dropExistingData='+this.dropExistingData,
                         this.currentTemplate
                     ).then(response => {
@@ -174,13 +179,18 @@
 
                     }).catch(function (error) {
 
-                        reject(error.response.data)
+                        reject(error.response.data);
 
                         alert('FAILURE Processing Uploaded file');
                     });
                 });
             },
 
+            /**
+             * Save template
+             *
+             * @returns {Promise<any>}
+             */
             saveTemplate(){
 
                 return new Promise((resolve, reject) => {
@@ -189,15 +199,16 @@
 
                         .then(response => {
                             resolve(response);
+
                             this.upload();
+
+                            this.show=false
                         })
                         .catch(error => {
                             reject(error.response.data)
                         })
                 });
             }
-
-
         },
 
         computed: {
@@ -238,7 +249,6 @@
                 set(value) {
                     this.currentTemplate.is_active = value;
                 }
-
             },
 
             file_path: {
@@ -254,7 +264,6 @@
                 set(value) {
                     this.currentTemplate.file_path = value;
                 }
-
             },
         }
     }

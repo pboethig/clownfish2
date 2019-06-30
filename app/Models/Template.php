@@ -40,7 +40,9 @@ class Template extends Eloquent
 		'user_id' => 'int',
 		'project_id' => 'int',
 		//'groups' => 'json',
-		'is_active' => 'bool'
+		'is_active' => 'bool',
+        'created_at'=>'date:Y-m-d',
+        'updated_at'=>'date:Y-m-d'
 	];
 
 	protected $fillable = [
@@ -53,7 +55,8 @@ class Template extends Eloquent
 		'is_active',
 		'import_table',
 		'export_table',
-		'adapter_class'
+		'adapter_class',
+		'created_at'
 	];
 
     protected $with=[

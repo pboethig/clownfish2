@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            Verfügbare Templates
+            <h1>Available Templates</h1>
             <v-spacer></v-spacer>
             <v-text-field
                     v-model="search"
@@ -33,10 +33,14 @@
                     <td class="text-xs-left">{{ props.item.file_path }}</td>
                     <td class="text-xs-left">{{ props.item.import_table }}</td>
                     <td class="text-xs-left">{{ props.item.export_table }}</td>
+                    <td class="text-xs-left">{{ props.item.created_at }}</td>
+                    <td class="text-xs-left">{{ props.item.updated_at }}</td>
                     <td class="text-xs-left layout px-0">
                         <v-icon
                                 class="mr-2"
-                                color="success">
+                                color="success"
+                                @click="openEditDialog(props.item)"
+                                >
                             edit
                         </v-icon>
                         <v-icon
@@ -55,7 +59,6 @@
     </v-card>
 </template>
 <script>
-
     import {mapState} from 'vuex'
     import TemplateEditModal from './TemplateEditModal';
 
@@ -118,47 +121,23 @@
                     { text: 'FilePath', value: 'file_path' , fixed: true,width:300},
                     { text: 'ImportTable', value: 'import_table' , fixed: true,width:100},
                     { text: 'ExportTable', value: 'export_table', fixed: true,width:100 },
+                    { text: 'Created At', value: 'created_at', fixed: true,width:100 },
+                    { text: 'Updated At', value: 'updated_at', fixed: true,width:100 },
                     { text: 'Actions', value: 'name', sortable: false , fixed: true}
                 ],
         }
         },
         methods: {
 
+            /**
+             * Open edit Dialog
+             */
             openEditDialog(template)
             {
-
                 this.showTemplateEditModal=true;
 
-                alert('dasd');
-
                 this.$store.dispatch('setCurrentTemplate', template);
-
-
             },
-
-            /**
-             * Handles okay button
-             */
-            handleOk() {
-
-                var self = this;
-
-                return new Promise((resolve, reject) => {
-
-                    axios.put('/api/templates/' + this.currentTemplate[0].id, this.currentTemplate[0])
-
-                        .then(response => {
-
-                            resolve(response);
-
-                            self.upload();
-                        })
-                        .catch(error => {
-                            reject(error.response.data)
-                        })
-                    });
-                }
-            },
-
+        }
     }
 </script>
