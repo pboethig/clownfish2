@@ -1,5 +1,4 @@
 <template>
-
     <v-card>
         <v-card-title>
             Nutrition
@@ -13,7 +12,6 @@
             ></v-text-field>
         </v-card-title>
         <v-data-table
-        <v-data-table
                 must-sort
                 :headers="headers"
                 :pagination.sync="pagination"
@@ -21,8 +19,7 @@
                 :total-items="pagination.totalItems"
                 :loading="loading"
                 :items="items"
-                class="elevation-1"
-        >
+                class="elevation-1">
             <template v-slot:items="props">
                 <td>{{ props.item.is_active }}</td>
                 <td class="text-xs-right">{{ props.item.id }}</td>
@@ -37,20 +34,15 @@
                     <v-icon
                             small
                             class="mr-2"
-                            color="success"
-
-                    >
+                            color="success">
                         edit
                     </v-icon>
                     <v-icon
                             small
-                            color="error"
-
-                    >
+                            color="error">
                         delete
                     </v-icon>
                 </td>
-
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -60,7 +52,6 @@
         </v-data-table>
     </v-card>
 </template>
-
 <script>
 
     import {mapState} from 'vuex'
@@ -219,6 +210,5 @@
                     });
                 });
             }
-
     }
 </script>
