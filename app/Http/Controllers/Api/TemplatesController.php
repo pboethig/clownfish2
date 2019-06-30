@@ -7,6 +7,8 @@ use App\Models\Template;
 use App\Repositories\TemplateRepository;
 use App\Service\ImportTemplatesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -129,6 +131,16 @@ class TemplatesController extends Controller
     }
 
     /**
+     * @param Template $template
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function reflectImportTable(Template $template)
+    {
+        return Schema::getColumnListing($template->import_table);
+    }
+
+    /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Template $template
      *
@@ -170,6 +182,7 @@ class TemplatesController extends Controller
     {
         $template->import_table = $template->id . '_' . 'import_table';
         $template->export_table = $template->id . '_' . 'export_table';
+        $template->save();
     }
 
 }

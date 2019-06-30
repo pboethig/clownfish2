@@ -11,7 +11,21 @@
                     hide-details
             ></v-text-field>
         </v-card-title>
+
+        <!-- Modal dialog-->
         <TemplateEditModal v-model="showTemplateEditModal" />
+        <!-- Snackbar -->
+        <v-snackbar
+                v-model="notification"
+                bottom
+                right
+                :color="notificationType"
+                :timeout="timeout"
+        >
+            {{ notificationText }}
+
+        </v-snackbar>
+        <!-- end notification-->
         <v-btn color="blue" style="color: white" @click="createTemplate">Add new template</v-btn>
         <v-data-table
                 must-sort
@@ -105,6 +119,10 @@
             },
         data() {
             return {
+                notificationText: "",
+                notification: false,
+                timeout: 1500,
+                notificationType: 'green',
                 search:'',
                 loading: false,
                 showTemplateEditModal:false,
@@ -127,6 +145,22 @@
         methods: {
 
             /**
+             * Snackbar options
+             * @param text               - Snackbar text
+             * @param options.buttonText - Button text
+             * @param options.closeable  - Whether snackbar is closeable
+             * @param options.onClick    - Button handler
+             * @param options.timeout    - Snackbar timeout
+             * @param options.type       - Snackbar type
+             */
+            addNotification(text) {
+                // Hide previous notification
+                this.notification = false;
+
+                this.notificationText = text;
+                this.notification = true;
+            },
+            /**
              * Create a new Template
              */
             createTemplate() {
@@ -144,7 +178,8 @@
                 console.log(newTemplate);
 
                 this.$store.dispatch('createTemplate', newTemplate);
-                this.$store.dispatch('queryItems')
+                this.$store.dispatch('queryItems');
+                this.addNotification("Template created successfully");
             },
 
             /**
@@ -163,6 +198,7 @@
             deleteTemplate(template)
             {
                 this.$store.dispatch('deleteTemplate', template);
+                this.addNotification("Template deleted successfully");
             },
         }
     }

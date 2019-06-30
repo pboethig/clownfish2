@@ -30,6 +30,7 @@ Route::post('templates/{template}/upload', 'Api\TemplatesController@upload');
 Route::post('templates/{template}/processUploadedFile', 'Api\TemplatesController@processUploadedFile');
 Route::put('templates/{template}', 'Api\TemplatesController@update');
 Route::delete('templates/{template}', 'Api\TemplatesController@destroy');
+Route::get('templates/{template}/reflectImportTable', 'Api\TemplatesController@reflectImportTable');
 
 Route::get('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
     return $templateRepository->getById($id);

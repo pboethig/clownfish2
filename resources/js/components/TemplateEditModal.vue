@@ -7,6 +7,7 @@
             <v-card-title>
                 Edit Template {{name}}
             </v-card-title>
+            <!-- Snackbar -->
             <v-card-text>
                 <v-flex xs12 sm6 md3>
                     <v-list-tile avatar @click="toggleIsActive()">
@@ -153,6 +154,8 @@
 
                         self.processUploadedFile();
 
+
+
                     }).catch(function (error) {
 
                         reject(error.response.data);
@@ -173,7 +176,7 @@
                         this.currentTemplate
                     ).then(response => {
 
-                        console.log(response);
+                        this.$store.dispatch('queryItems');
 
                         resolve(response);
 

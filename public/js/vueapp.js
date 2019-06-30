@@ -1892,6 +1892,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1933,6 +1947,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   data: function data() {
     return {
+      notificationText: "",
+      notification: false,
+      timeout: 1500,
+      notificationType: 'green',
       search: '',
       loading: false,
       showTemplateEditModal: false,
@@ -2000,6 +2018,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     /**
+     * Snackbar options
+     * @param text               - Snackbar text
+     * @param options.buttonText - Button text
+     * @param options.closeable  - Whether snackbar is closeable
+     * @param options.onClick    - Button handler
+     * @param options.timeout    - Snackbar timeout
+     * @param options.type       - Snackbar type
+     */
+    addNotification: function addNotification(text) {
+      // Hide previous notification
+      this.notification = false;
+      this.notificationText = text;
+      this.notification = true;
+    },
+
+    /**
      * Create a new Template
      */
     createTemplate: function createTemplate() {
@@ -2014,6 +2048,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(newTemplate);
       this.$store.dispatch('createTemplate', newTemplate);
       this.$store.dispatch('queryItems');
+      this.addNotification("Template created successfully");
     },
 
     /**
@@ -2029,6 +2064,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      */
     deleteTemplate: function deleteTemplate(template) {
       this.$store.dispatch('deleteTemplate', template);
+      this.addNotification("Template deleted successfully");
     }
   }
 });
@@ -2049,6 +2085,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -2205,7 +2242,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       return new Promise(function (resolve, reject) {
         axios.post('/api/templates/' + _this3.currentTemplate.id + '/processUploadedFile?dropExistingData=' + _this3.dropExistingData, _this3.currentTemplate).then(function (response) {
-          console.log(response);
+          _this3.$store.dispatch('queryItems');
+
           resolve(response);
         })["catch"](function (error) {
           reject(error.response.data);
@@ -24067,6 +24105,26 @@ var render = function() {
           expression: "showTemplateEditModal"
         }
       }),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: {
+            bottom: "",
+            right: "",
+            color: _vm.notificationType,
+            timeout: _vm.timeout
+          },
+          model: {
+            value: _vm.notification,
+            callback: function($$v) {
+              _vm.notification = $$v
+            },
+            expression: "notification"
+          }
+        },
+        [_vm._v("\n        " + _vm._s(_vm.notificationText) + "\n\n    ")]
+      ),
       _vm._v(" "),
       _c(
         "v-btn",

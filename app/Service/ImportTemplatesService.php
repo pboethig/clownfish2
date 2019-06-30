@@ -50,7 +50,7 @@ class ImportTemplatesService
 
         $this->disk->delete($this->getSqlImportScriptFile($template));
 
-        return $template;
+        return Template::find($template->id);
     }
 
     /**
