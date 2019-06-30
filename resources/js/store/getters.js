@@ -3,6 +3,9 @@ let getters =
         currentTemplate: state => {
             return state.currentTemplate
         },
+        currentImportTable: state => {
+            return state.currentImportTable
+        },
         loading (state) {
             return state.loading
         },

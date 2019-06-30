@@ -23,6 +23,17 @@ let mutations = {
     _setCurrentTemplate (state, template) {
         state.currentTemplate=template
     },
+
+    /**
+     * Set current currentImportTable
+     *
+     * @param state
+     * @param currentImportTable
+     * @private
+     */
+    _setCurrentImportTable (state, currentImportTable) {
+        state.currentImportTable=currentImportTable
+    },
     /**
      * Crate a new template
      *

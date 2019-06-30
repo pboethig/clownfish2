@@ -1,5 +1,6 @@
 let state = {
     currentTemplate:null,
+    currentImportTable:[],
     pagination: {
         descending: true,
         page: 1,

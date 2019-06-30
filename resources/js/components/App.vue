@@ -7,7 +7,6 @@
             <div class="container">
                 <ul class="navbar-nav">
                     <router-link :to="{ name: 'templates' }" class="nav-link">Templates</router-link>
-                    <router-link :to="{ name: 'page' }" class="nav-link" >Spa-Page</router-link>
                     <router-link :to="{ name: 'contact' }" class="nav-link" >Contact</router-link>
                 </ul>
             </div>

@@ -35,6 +35,16 @@ let actions = {
     },
 
     /**
+     * Set current importTable
+     * @param context
+     * @param importTable
+     */
+    setCurrentImportTable(context, importTable) {
+        context.commit('_setCurrentImportTable', importTable);
+
+    },
+
+    /**
      * Search templates
      * @param context
      * @param searchTerm

@@ -3,57 +3,94 @@
               dark
               transition="dialog-bottom-transition"
               scrollable>
+
         <v-card>
-            <v-card-title>
-                Edit Template {{name}}
-            </v-card-title>
-            <!-- Snackbar -->
-            <v-card-text>
-                <v-flex xs12 sm6 md3>
-                    <v-list-tile avatar @click="toggleIsActive()">
-                        <v-list-tile-action>
-                            <v-checkbox v-model="is_active" @click.prevent=""></v-checkbox>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Is Active</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-flex>
+            <v-tabs
 
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                            label="Name *"
-                            placeholder="The name of the template"
-                            v-model="name"
-                    ></v-text-field>
-                </v-flex>
-                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-                    <v-text-field label="Select ImportFile" @click='pickFile' v-model='file_path' prepend-icon='attach_file'></v-text-field>
-                    <input
-                            type="file"
-                            style="display: none"
-                            ref="file"
-                            accept="text/csv"
-                            @change="onFilePicked"
-                    >
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-list-tile avatar @click="toggleDropExistingData()">
-                        <v-list-tile-action>
-                            <v-checkbox v-model="dropExistingData" @click.prevent=""></v-checkbox>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Drop existing data</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-flex>
-            </v-card-text>
-            <v-card-actions>
-                <v-btn color="primary" @click.stop="show=false">Close</v-btn>
-                <v-btn color="primary" @click="saveTemplate()">Save</v-btn>
-            </v-card-actions>
+                    color="blue"
+                    dark
+                    slider-color="yellow"
+            >
+                <v-tab ripple>
+                    Base Data
+                </v-tab>
+                <v-tab ripple>
+                    Mapping
+                </v-tab>
+                <v-tab-item>
+                    <v-card-title>
+                        <h2>Edit Template "{{name}}"</h2>
+                    </v-card-title>
+                    <!-- Snackbar -->
+                    <v-card-text>
+                        <v-divider/>
+                        <v-flex xs12 sm6 md3>
+                            <v-list-tile avatar @click="toggleIsActive()">
+                                <v-list-tile-action>
+                                    <v-checkbox v-model="is_active" @click.prevent=""></v-checkbox>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Is Active</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-flex>
+
+                        <v-divider/>
+                        <v-flex xs12 sm6 md3>
+                            <v-text-field
+                                    label="Name *"
+                                    placeholder="The name of the template"
+                                    v-model="name"
+                            ></v-text-field>
+                        </v-flex>
+                        <v-divider/>
+                        <v-flex xs12 sm6 md3 class="text-xs-center text-sm-center text-md-center text-lg-center">
+                            <v-text-field label="Select ImportFile" @click='pickFile' v-model='file_path'></v-text-field>
+                            <input
+                                    type="file"
+                                    style="display: none"
+                                    ref="file"
+                                    accept="text/csv"
+                                    @change="onFilePicked"
+                            >
+                        </v-flex>
+                        <v-divider/>
+                        <v-flex xs12 sm6 md3>
+                            <v-list-tile avatar @click="toggleDropExistingData()">
+                                <v-list-tile-action>
+                                    <v-checkbox v-model="dropExistingData" @click.prevent=""></v-checkbox>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>Drop existing data</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </v-flex>
+                        <v-divider/>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" @click.stop="show=false">Close</v-btn>
+                        <v-btn color="primary" @click="saveTemplate()">Save</v-btn>
+                    </v-card-actions>
+                </v-tab-item>
+
+
+                <v-tab-item>
+                    <v-card-title>
+                        <h2>Edit Column Mapping of table: "{{ _currentTemplate.import_table}}"</h2>
+                    </v-card-title>
+                    <v-card-title>
+                        <div v-if="_currentImportTable" v-for="(column, index) in _currentImportTable">
+                            <v-flex xs12 style="max-width:200px!important">
+                                <v-select
+                                        :items="_currentImportTable"
+                                        label="column"
+                                ></v-select>
+                            </v-flex>
+                            </div>
+                    </v-card-title>
+                </v-tab-item>
+            </v-tabs>
         </v-card>
-
     </v-dialog>
 </template>
 
@@ -68,8 +105,8 @@
         data() {
             return {
                 select: ['sdasdsa', 'sadasd'],
-                importUrl:'',
-                dropExistingData:false,
+                importUrl: '',
+                dropExistingData: false,
             }
         },
 
@@ -85,8 +122,8 @@
             /**
              * Picks file
              */
-            pickFile () {
-                this.$refs.file.click ()
+            pickFile() {
+                this.$refs.file.click()
             },
 
             /**
@@ -99,19 +136,19 @@
             /**
              * When file was picked
              */
-            onFilePicked (e) {
+            onFilePicked(e) {
                 const files = e.target.files;
 
-                if(files[0] !== undefined) {
+                if (files[0] !== undefined) {
                     this.fileName = files[0].name;
-                    if(this.fileName.lastIndexOf('.') <= 0) {
+                    if (this.fileName.lastIndexOf('.') <= 0) {
                         return
                     }
-                    const fr = new FileReader ()
+                    const fr = new FileReader()
                     fr.readAsDataURL(files[0]);
                     fr.addEventListener('load', () => {
 
-                        this.currentTemplate.file_path=files[0].name;
+                        this.currentTemplate.file_path = files[0].name;
                         this.currentTemplate.file = files[0];
 
                     })
@@ -129,8 +166,7 @@
 
                 let formData = new FormData();
 
-                if(typeof this.currentTemplate.file === "undefined")
-                {
+                if (typeof this.currentTemplate.file === "undefined") {
                     return;
                 }
 
@@ -155,7 +191,6 @@
                         self.processUploadedFile();
 
 
-
                     }).catch(function (error) {
 
                         reject(error.response.data);
@@ -168,11 +203,9 @@
             /**
              * Process UploadedFile
              */
-            processUploadedFile()
-            {
-                return new Promise((resolve, reject) =>
-                {
-                    axios.post('/api/templates/' + this.currentTemplate.id + '/processUploadedFile?dropExistingData='+this.dropExistingData,
+            processUploadedFile() {
+                return new Promise((resolve, reject) => {
+                    axios.post('/api/templates/' + this.currentTemplate.id + '/processUploadedFile?dropExistingData=' + this.dropExistingData,
                         this.currentTemplate
                     ).then(response => {
 
@@ -189,12 +222,13 @@
                 });
             },
 
+
             /**
              * Save template
              *
              * @returns {Promise<any>}
              */
-            saveTemplate(){
+            saveTemplate() {
 
                 return new Promise((resolve, reject) => {
 
@@ -205,7 +239,7 @@
 
                             this.upload();
 
-                            this.show=false
+                            this.show = false
                         })
                         .catch(error => {
                             reject(error.response.data)
@@ -215,7 +249,7 @@
         },
 
         computed: {
-            ...mapState(['currentTemplate', 'templates']),
+            ...mapState(['currentTemplate', 'templates', 'currentImportTable']),
             show: {
                 get() {
                     return this.value
@@ -268,6 +302,29 @@
                     this.currentTemplate.file_path = value;
                 }
             },
+
+            _currentImportTable: {
+                get()
+                {
+                    if (this.currentImportTable.length > 0) {
+                        return this.currentImportTable;
+                    }
+
+                    return false;
+                },
+            },
+
+            _currentTemplate: {
+                get()
+                {
+                    if (this.currentTemplate) {
+                        return this.currentTemplate;
+                    }
+
+                    return false;
+                },
+            },
+
         }
     }
 </script>

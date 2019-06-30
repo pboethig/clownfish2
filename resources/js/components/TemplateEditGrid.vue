@@ -190,7 +190,25 @@
                 this.showTemplateEditModal=true;
 
                 this.$store.dispatch('setCurrentTemplate', template);
+
+                this.setCurrentImportTable();
             },
+
+            /**
+             * Loads current Table definition
+             */
+            setCurrentImportTable() {
+                axios.get('/api/templates/' + this.currentTemplate.id + '/reflectImportTable')
+
+                    .then(response => {
+
+                        this.$store.dispatch('setCurrentImportTable', response.data)
+                    })
+                    .catch(error => {
+                        reject(error.response.data)
+                    })
+            },
+
 
             /**
              * Delete

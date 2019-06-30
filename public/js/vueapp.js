@@ -1737,7 +1737,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 ;
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -2057,6 +2056,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     openEditDialog: function openEditDialog(template) {
       this.showTemplateEditModal = true;
       this.$store.dispatch('setCurrentTemplate', template);
+      this.setCurrentImportTable();
+    },
+
+    /**
+     * Loads current Table definition
+     */
+    setCurrentImportTable: function setCurrentImportTable() {
+      var _this2 = this;
+
+      axios.get('/api/templates/' + this.currentTemplate.id + '/reflectImportTable').then(function (response) {
+        _this2.$store.dispatch('setCurrentImportTable', response.data);
+      })["catch"](function (error) {
+        reject(error.response.data);
+      });
     },
 
     /**
@@ -2085,6 +2098,43 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2273,7 +2323,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'templates']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'templates', 'currentImportTable']), {
     show: {
       get: function get() {
         return this.value;
@@ -2316,6 +2366,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       },
       set: function set(value) {
         this.currentTemplate.file_path = value;
+      }
+    },
+    _currentImportTable: {
+      get: function get() {
+        if (this.currentImportTable.length > 0) {
+          return this.currentImportTable;
+        }
+
+        return false;
+      }
+    },
+    _currentTemplate: {
+      get: function get() {
+        if (this.currentTemplate) {
+          return this.currentTemplate;
+        }
+
+        return false;
       }
     }
   })
@@ -23883,12 +23951,6 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "router-link",
-                { staticClass: "nav-link", attrs: { to: { name: "page" } } },
-                [_vm._v("Spa-Page")]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
                 { staticClass: "nav-link", attrs: { to: { name: "contact" } } },
                 [_vm._v("Contact")]
               )
@@ -24413,200 +24475,279 @@ var render = function() {
       _c(
         "v-card",
         [
-          _c("v-card-title", [
-            _vm._v(
-              "\n            Edit Template " + _vm._s(_vm.name) + "\n        "
-            )
-          ]),
-          _vm._v(" "),
           _c(
-            "v-card-text",
+            "v-tabs",
+            { attrs: { color: "blue", dark: "", "slider-color": "yellow" } },
             [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", sm6: "", md3: "" } },
-                [
-                  _c(
-                    "v-list-tile",
-                    {
-                      attrs: { avatar: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.toggleIsActive()
-                        }
-                      }
-                    },
-                    [
-                      _c(
-                        "v-list-tile-action",
-                        [
-                          _c("v-checkbox", {
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                              }
-                            },
-                            model: {
-                              value: _vm.is_active,
-                              callback: function($$v) {
-                                _vm.is_active = $$v
-                              },
-                              expression: "is_active"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-tile-content",
-                        [_c("v-list-tile-title", [_vm._v("Is Active")])],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
+              _c("v-tab", { attrs: { ripple: "" } }, [
+                _vm._v("\n                Base Data\n            ")
+              ]),
+              _vm._v(" "),
+              _c("v-tab", { attrs: { ripple: "" } }, [
+                _vm._v("\n                Mapping\n            ")
+              ]),
               _vm._v(" "),
               _c(
-                "v-flex",
-                { attrs: { xs12: "", sm6: "", md3: "" } },
+                "v-tab-item",
                 [
-                  _c("v-text-field", {
-                    attrs: {
-                      label: "Name *",
-                      placeholder: "The name of the template"
-                    },
-                    model: {
-                      value: _vm.name,
-                      callback: function($$v) {
-                        _vm.name = $$v
-                      },
-                      expression: "name"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                {
-                  staticClass:
-                    "text-xs-center text-sm-center text-md-center text-lg-center",
-                  attrs: { xs12: "" }
-                },
-                [
-                  _c("v-text-field", {
-                    attrs: {
-                      label: "Select ImportFile",
-                      "prepend-icon": "attach_file"
-                    },
-                    on: { click: _vm.pickFile },
-                    model: {
-                      value: _vm.file_path,
-                      callback: function($$v) {
-                        _vm.file_path = $$v
-                      },
-                      expression: "file_path"
-                    }
-                  }),
+                  _c("v-card-title", [
+                    _c("h2", [
+                      _vm._v('Edit Template "' + _vm._s(_vm.name) + '"')
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("input", {
-                    ref: "file",
-                    staticStyle: { display: "none" },
-                    attrs: { type: "file", accept: "text/csv" },
-                    on: { change: _vm.onFilePicked }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs12: "", sm6: "", md3: "" } },
-                [
                   _c(
-                    "v-list-tile",
-                    {
-                      attrs: { avatar: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.toggleDropExistingData()
-                        }
-                      }
-                    },
+                    "v-card-text",
                     [
+                      _c("v-divider"),
+                      _vm._v(" "),
                       _c(
-                        "v-list-tile-action",
+                        "v-flex",
+                        { attrs: { xs12: "", sm6: "", md3: "" } },
                         [
-                          _c("v-checkbox", {
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
+                          _c(
+                            "v-list-tile",
+                            {
+                              attrs: { avatar: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.toggleIsActive()
+                                }
                               }
                             },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [
+                                  _c("v-checkbox", {
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.is_active,
+                                      callback: function($$v) {
+                                        _vm.is_active = $$v
+                                      },
+                                      expression: "is_active"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [
+                                  _c("v-list-tile-title", [_vm._v("Is Active")])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm6: "", md3: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              label: "Name *",
+                              placeholder: "The name of the template"
+                            },
                             model: {
-                              value: _vm.dropExistingData,
+                              value: _vm.name,
                               callback: function($$v) {
-                                _vm.dropExistingData = $$v
+                                _vm.name = $$v
                               },
-                              expression: "dropExistingData"
+                              expression: "name"
                             }
                           })
                         ],
                         1
                       ),
                       _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
                       _c(
-                        "v-list-tile-content",
+                        "v-flex",
+                        {
+                          staticClass:
+                            "text-xs-center text-sm-center text-md-center text-lg-center",
+                          attrs: { xs12: "", sm6: "", md3: "" }
+                        },
                         [
-                          _c("v-list-tile-title", [
-                            _vm._v("Drop existing data")
-                          ])
+                          _c("v-text-field", {
+                            attrs: { label: "Select ImportFile" },
+                            on: { click: _vm.pickFile },
+                            model: {
+                              value: _vm.file_path,
+                              callback: function($$v) {
+                                _vm.file_path = $$v
+                              },
+                              expression: "file_path"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            ref: "file",
+                            staticStyle: { display: "none" },
+                            attrs: { type: "file", accept: "text/csv" },
+                            on: { change: _vm.onFilePicked }
+                          })
                         ],
                         1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm6: "", md3: "" } },
+                        [
+                          _c(
+                            "v-list-tile",
+                            {
+                              attrs: { avatar: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.toggleDropExistingData()
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-list-tile-action",
+                                [
+                                  _c("v-checkbox", {
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.dropExistingData,
+                                      callback: function($$v) {
+                                        _vm.dropExistingData = $$v
+                                      },
+                                      expression: "dropExistingData"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-tile-content",
+                                [
+                                  _c("v-list-tile-title", [
+                                    _vm._v("Drop existing data")
+                                  ])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              $event.stopPropagation()
+                              _vm.show = false
+                            }
+                          }
+                        },
+                        [_vm._v("Close")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "primary" },
+                          on: {
+                            click: function($event) {
+                              return _vm.saveTemplate()
+                            }
+                          }
+                        },
+                        [_vm._v("Save")]
                       )
                     ],
                     1
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-card-actions",
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: { color: "primary" },
-                  on: {
-                    click: function($event) {
-                      $event.stopPropagation()
-                      _vm.show = false
-                    }
-                  }
-                },
-                [_vm._v("Close")]
               ),
               _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "primary" },
-                  on: {
-                    click: function($event) {
-                      return _vm.saveTemplate()
-                    }
-                  }
-                },
-                [_vm._v("Save")]
+                "v-tab-item",
+                [
+                  _c("v-card-title", [
+                    _c("h2", [
+                      _vm._v(
+                        'Edit Column Mapping of table: "' +
+                          _vm._s(_vm._currentTemplate.import_table) +
+                          '"'
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-title",
+                    _vm._l(_vm._currentImportTable, function(column, index) {
+                      return _vm._currentImportTable
+                        ? _c(
+                            "div",
+                            [
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: {
+                                    "max-width": "200px!important"
+                                  },
+                                  attrs: { xs12: "" }
+                                },
+                                [
+                                  _c("v-select", {
+                                    attrs: {
+                                      items: _vm._currentImportTable,
+                                      label: "column"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    }),
+                    0
+                  )
+                ],
+                1
               )
             ],
             1
@@ -66958,6 +67099,15 @@ var actions = {
   },
 
   /**
+   * Set current importTable
+   * @param context
+   * @param importTable
+   */
+  setCurrentImportTable: function setCurrentImportTable(context, importTable) {
+    context.commit('_setCurrentImportTable', importTable);
+  },
+
+  /**
    * Search templates
    * @param context
    * @param searchTerm
@@ -67077,6 +67227,9 @@ var getters = {
   currentTemplate: function currentTemplate(state) {
     return state.currentTemplate;
   },
+  currentImportTable: function currentImportTable(state) {
+    return state.currentImportTable;
+  },
   loading: function loading(state) {
     return state.loading;
   },
@@ -67160,6 +67313,17 @@ var mutations = {
   },
 
   /**
+   * Set current currentImportTable
+   *
+   * @param state
+   * @param currentImportTable
+   * @private
+   */
+  _setCurrentImportTable: function _setCurrentImportTable(state, currentImportTable) {
+    state.currentImportTable = currentImportTable;
+  },
+
+  /**
    * Crate a new template
    *
    * @param state
@@ -67194,6 +67358,7 @@ var mutations = {
 __webpack_require__.r(__webpack_exports__);
 var state = {
   currentTemplate: null,
+  currentImportTable: [],
   pagination: {
     descending: true,
     page: 1,
