@@ -18,16 +18,16 @@
                     Mapping
                 </v-tab>
                 <v-tab-item>
-                    <v-card-title>
-                        <h2>Edit Template "{{name}}"</h2>
+                    <v-card-title  v-if="currentTemplate">
+                        <h2>Edit Template "{{currentTemplate.name}}"</h2>
                     </v-card-title>
                     <!-- Snackbar -->
                     <v-card-text>
                         <v-divider/>
-                        <v-flex xs12 sm6 md3>
+                        <v-flex xs12 sm6 md3 v-if="currentTemplate">
                             <v-list-tile avatar @click="toggleIsActive()">
                                 <v-list-tile-action>
-                                    <v-checkbox v-model="is_active" @click.prevent=""></v-checkbox>
+                                    <v-checkbox v-model="currentTemplate.is_active" @click.prevent=""></v-checkbox>
                                 </v-list-tile-action>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Is Active</v-list-tile-title>
@@ -37,15 +37,15 @@
 
                         <v-divider/>
                         <v-flex xs12 sm6 md3>
-                            <v-text-field
+                            <v-text-field  v-if="currentTemplate"
                                     label="Name *"
                                     placeholder="The name of the template"
-                                    v-model="name"
+                                    v-model="currentTemplate.name"
                             ></v-text-field>
                         </v-flex>
                         <v-divider/>
-                        <v-flex xs12 sm6 md3 class="text-xs-center text-sm-center text-md-center text-lg-center">
-                            <v-text-field label="Select ImportFile" @click='pickFile' v-model='file_path'></v-text-field>
+                        <v-flex v-if="currentTemplate" xs12 sm6 md3 class="text-xs-center text-sm-center text-md-center text-lg-center">
+                            <v-text-field label="Select ImportFile" @click='pickFile' v-model='currentTemplate.file_path'></v-text-field>
                             <input
                                     type="file"
                                     style="display: none"
@@ -76,13 +76,13 @@
 
                 <v-tab-item>
                     <v-card-title>
-                        <h2>Edit Column Mapping of table: "{{ _currentTemplate.import_table}}"</h2>
+                        <h2  v-if="currentTemplate">Edit Column Mapping of table: "{{ currentTemplate.import_table}}"</h2>
                     </v-card-title>
                     <v-card-title>
-                        <div v-if="_currentImportTable" v-for="(column, index) in _currentImportTable">
+                        <div v-if="currentImportTable" v-for="(column, index) in currentImportTable">
                             <v-flex xs12 style="max-width:200px!important">
                                 <v-select
-                                        :items="_currentImportTable"
+                                        :items="currentImportTable"
                                         label="column"
                                 ></v-select>
                             </v-flex>
@@ -258,73 +258,6 @@
                     this.$emit('input', value)
                 }
             },
-            name: {
-                get() {
-
-                    if (this.currentTemplate) {
-                        return this.currentTemplate.name;
-                    }
-
-                    return null;
-
-                },
-                set(value) {
-                    this.currentTemplate.name = value;
-                }
-            },
-
-            is_active: {
-                get() {
-
-                    if (this.currentTemplate) {
-                        return this.currentTemplate.is_active;
-                    }
-
-                    return null;
-
-                },
-                set(value) {
-                    this.currentTemplate.is_active = value;
-                }
-            },
-
-            file_path: {
-                get() {
-
-                    if (this.currentTemplate) {
-                        return this.currentTemplate.file_path;
-                    }
-
-                    return null;
-
-                },
-                set(value) {
-                    this.currentTemplate.file_path = value;
-                }
-            },
-
-            _currentImportTable: {
-                get()
-                {
-                    if (this.currentImportTable.length > 0) {
-                        return this.currentImportTable;
-                    }
-
-                    return false;
-                },
-            },
-
-            _currentTemplate: {
-                get()
-                {
-                    if (this.currentTemplate) {
-                        return this.currentTemplate;
-                    }
-
-                    return false;
-                },
-            },
-
         }
     }
 </script>

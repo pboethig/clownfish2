@@ -2331,60 +2331,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(value) {
         this.$emit('input', value);
       }
-    },
-    name: {
-      get: function get() {
-        if (this.currentTemplate) {
-          return this.currentTemplate.name;
-        }
-
-        return null;
-      },
-      set: function set(value) {
-        this.currentTemplate.name = value;
-      }
-    },
-    is_active: {
-      get: function get() {
-        if (this.currentTemplate) {
-          return this.currentTemplate.is_active;
-        }
-
-        return null;
-      },
-      set: function set(value) {
-        this.currentTemplate.is_active = value;
-      }
-    },
-    file_path: {
-      get: function get() {
-        if (this.currentTemplate) {
-          return this.currentTemplate.file_path;
-        }
-
-        return null;
-      },
-      set: function set(value) {
-        this.currentTemplate.file_path = value;
-      }
-    },
-    _currentImportTable: {
-      get: function get() {
-        if (this.currentImportTable.length > 0) {
-          return this.currentImportTable;
-        }
-
-        return false;
-      }
-    },
-    _currentTemplate: {
-      get: function get() {
-        if (this.currentTemplate) {
-          return this.currentTemplate;
-        }
-
-        return false;
-      }
     }
   })
 });
@@ -24490,66 +24436,81 @@ var render = function() {
               _c(
                 "v-tab-item",
                 [
-                  _c("v-card-title", [
-                    _c("h2", [
-                      _vm._v('Edit Template "' + _vm._s(_vm.name) + '"')
-                    ])
-                  ]),
+                  _vm.currentTemplate
+                    ? _c("v-card-title", [
+                        _c("h2", [
+                          _vm._v(
+                            'Edit Template "' +
+                              _vm._s(_vm.currentTemplate.name) +
+                              '"'
+                          )
+                        ])
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "v-card-text",
                     [
                       _c("v-divider"),
                       _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm6: "", md3: "" } },
-                        [
-                          _c(
-                            "v-list-tile",
-                            {
-                              attrs: { avatar: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.toggleIsActive()
-                                }
-                              }
-                            },
+                      _vm.currentTemplate
+                        ? _c(
+                            "v-flex",
+                            { attrs: { xs12: "", sm6: "", md3: "" } },
                             [
                               _c(
-                                "v-list-tile-action",
-                                [
-                                  _c("v-checkbox", {
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.is_active,
-                                      callback: function($$v) {
-                                        _vm.is_active = $$v
-                                      },
-                                      expression: "is_active"
+                                "v-list-tile",
+                                {
+                                  attrs: { avatar: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.toggleIsActive()
                                     }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-tile-content",
+                                  }
+                                },
                                 [
-                                  _c("v-list-tile-title", [_vm._v("Is Active")])
+                                  _c(
+                                    "v-list-tile-action",
+                                    [
+                                      _c("v-checkbox", {
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                          }
+                                        },
+                                        model: {
+                                          value: _vm.currentTemplate.is_active,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.currentTemplate,
+                                              "is_active",
+                                              $$v
+                                            )
+                                          },
+                                          expression:
+                                            "currentTemplate.is_active"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c("v-list-tile-title", [
+                                        _vm._v("Is Active")
+                                      ])
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
                             ],
                             1
                           )
-                        ],
-                        1
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("v-divider"),
                       _vm._v(" "),
@@ -24557,54 +24518,62 @@ var render = function() {
                         "v-flex",
                         { attrs: { xs12: "", sm6: "", md3: "" } },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              label: "Name *",
-                              placeholder: "The name of the template"
-                            },
-                            model: {
-                              value: _vm.name,
-                              callback: function($$v) {
-                                _vm.name = $$v
-                              },
-                              expression: "name"
-                            }
-                          })
+                          _vm.currentTemplate
+                            ? _c("v-text-field", {
+                                attrs: {
+                                  label: "Name *",
+                                  placeholder: "The name of the template"
+                                },
+                                model: {
+                                  value: _vm.currentTemplate.name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.currentTemplate, "name", $$v)
+                                  },
+                                  expression: "currentTemplate.name"
+                                }
+                              })
+                            : _vm._e()
                         ],
                         1
                       ),
                       _vm._v(" "),
                       _c("v-divider"),
                       _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        {
-                          staticClass:
-                            "text-xs-center text-sm-center text-md-center text-lg-center",
-                          attrs: { xs12: "", sm6: "", md3: "" }
-                        },
-                        [
-                          _c("v-text-field", {
-                            attrs: { label: "Select ImportFile" },
-                            on: { click: _vm.pickFile },
-                            model: {
-                              value: _vm.file_path,
-                              callback: function($$v) {
-                                _vm.file_path = $$v
-                              },
-                              expression: "file_path"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            ref: "file",
-                            staticStyle: { display: "none" },
-                            attrs: { type: "file", accept: "text/csv" },
-                            on: { change: _vm.onFilePicked }
-                          })
-                        ],
-                        1
-                      ),
+                      _vm.currentTemplate
+                        ? _c(
+                            "v-flex",
+                            {
+                              staticClass:
+                                "text-xs-center text-sm-center text-md-center text-lg-center",
+                              attrs: { xs12: "", sm6: "", md3: "" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                attrs: { label: "Select ImportFile" },
+                                on: { click: _vm.pickFile },
+                                model: {
+                                  value: _vm.currentTemplate.file_path,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.currentTemplate,
+                                      "file_path",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "currentTemplate.file_path"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("input", {
+                                ref: "file",
+                                staticStyle: { display: "none" },
+                                attrs: { type: "file", accept: "text/csv" },
+                                on: { change: _vm.onFilePicked }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("v-divider"),
                       _vm._v(" "),
@@ -24705,19 +24674,21 @@ var render = function() {
                 "v-tab-item",
                 [
                   _c("v-card-title", [
-                    _c("h2", [
-                      _vm._v(
-                        'Edit Column Mapping of table: "' +
-                          _vm._s(_vm._currentTemplate.import_table) +
-                          '"'
-                      )
-                    ])
+                    _vm.currentTemplate
+                      ? _c("h2", [
+                          _vm._v(
+                            'Edit Column Mapping of table: "' +
+                              _vm._s(_vm.currentTemplate.import_table) +
+                              '"'
+                          )
+                        ])
+                      : _vm._e()
                   ]),
                   _vm._v(" "),
                   _c(
                     "v-card-title",
-                    _vm._l(_vm._currentImportTable, function(column, index) {
-                      return _vm._currentImportTable
+                    _vm._l(_vm.currentImportTable, function(column, index) {
+                      return _vm.currentImportTable
                         ? _c(
                             "div",
                             [
@@ -24732,7 +24703,7 @@ var render = function() {
                                 [
                                   _c("v-select", {
                                     attrs: {
-                                      items: _vm._currentImportTable,
+                                      items: _vm.currentImportTable,
                                       label: "column"
                                     }
                                   })
