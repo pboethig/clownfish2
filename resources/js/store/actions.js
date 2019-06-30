@@ -12,6 +12,22 @@ let actions = {
     },
 
 
+    search(context, searchTerm) {
+        axios.defaults.params = {};
+        axios.defaults.params[ 'filter' ] = {
+            searchTerm:searchTerm,
+            pagination:context.pagination,
+        };
+
+        axios.get('/api/templates/')
+            .then(res => {
+                context.commit('_setItems',  res.data,  res.data.length);
+            })
+            .catch(err => console.log(err.response.data)).finally(function () {
+            context.loading=false;
+        })
+    },
+
     _setItems(context, items, totalItems) {
         context.commit('_setItems', {items, totalItems})
     },

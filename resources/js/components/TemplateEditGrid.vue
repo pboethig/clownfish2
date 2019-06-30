@@ -72,9 +72,10 @@
             },
             search: function ()
             {
-                this.loading = true;
 
-                this.searchTemplates();
+                this.loading=true;
+
+                this.$store.dispatch('search', this.search);
             }
 
         },
@@ -128,23 +129,10 @@
              * Serach templates
              */
             searchTemplates() {
+
                 this.loading = true;
-                // get by search keyword
-                if (this.search) {
 
-                    axios.defaults.params = {};
-                    axios.defaults.params[ 'filter' ] = {
-                        searchTerm:this.search,
-                        pagination:this.pagination,
-                    };
 
-                    axios.get('/api/templates/')
-                        .then(res => {
-                            this.$store.dispatch('_setItems',  res.data,  res.data.length);
-                        })
-                        .catch(err => console.log(err.response.data))
-                        .finally(() => this.loading = false);
-                }
                 // get by sort option
                 // if (this.pagination.sortBy && !this.search) {
                 //     const direction = this.pagination.descending ? 'desc' : 'asc';

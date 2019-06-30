@@ -1932,7 +1932,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     search: function search() {
       this.loading = true;
-      this.searchTemplates();
+      this.$store.dispatch('search', this.search);
     }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates']), {
@@ -2017,24 +2017,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * Serach templates
      */
     searchTemplates: function searchTemplates() {
-      var _this2 = this;
-
-      this.loading = true; // get by search keyword
-
-      if (this.search) {
-        axios.defaults.params = {};
-        axios.defaults.params['filter'] = {
-          searchTerm: this.search,
-          pagination: this.pagination
-        };
-        axios.get('/api/templates/').then(function (res) {
-          _this2.$store.dispatch('_setItems', res.data, res.data.length);
-        })["catch"](function (err) {
-          return console.log(err.response.data);
-        })["finally"](function () {
-          return _this2.loading = false;
-        });
-      } // get by sort option
+      this.loading = true; // get by sort option
       // if (this.pagination.sortBy && !this.search) {
       //     const direction = this.pagination.descending ? 'desc' : 'asc';
       //     axios.get(`${environment.apiUrl}/category-order?direction=${direction}&sortBy=${this.pagination.sortBy}&page=${this.pagination.page}&per_page=${this.pagination.rowsPerPage}`)
@@ -2052,18 +2035,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       //         .catch(err => console.log(err.response.data))
       //         .finally(() => this.loading = false);
       // }
-
     },
 
     /**
      * Handles okay button
      */
     handleOk: function handleOk() {
-      var _this3 = this;
+      var _this2 = this;
 
       var self = this;
       return new Promise(function (resolve, reject) {
-        axios.put('/api/templates/' + _this3.currentTemplate[0].id, _this3.currentTemplate[0]).then(function (response) {
+        axios.put('/api/templates/' + _this2.currentTemplate[0].id, _this2.currentTemplate[0]).then(function (response) {
           resolve(response);
           self.upload();
         })["catch"](function (error) {
@@ -2077,7 +2059,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    * Upload file
    */
   upload: function upload() {
-    var _this4 = this;
+    var _this3 = this;
 
     var self = this;
     var formData = new FormData();
@@ -2086,7 +2068,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.currentTemplate[0].export_table = this.currentTemplate[0].id + "_export_table";
     formData.append('file', this.currentTemplate[0].file);
     return new Promise(function (resolve, reject) {
-      axios.post('/api/templates/' + _this4.currentTemplate[0].id + '/upload', formData, {
+      axios.post('/api/templates/' + _this3.currentTemplate[0].id + '/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -2105,10 +2087,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    * Process UploadedFile
    */
   processUploadedFile: function processUploadedFile() {
-    var _this5 = this;
+    var _this4 = this;
 
     return new Promise(function (resolve, reject) {
-      axios.post('/api/templates/' + _this5.currentTemplate[0].id + '/processUploadedFile', _this5.currentTemplate[0]).then(function (response) {
+      axios.post('/api/templates/' + _this4.currentTemplate[0].id + '/processUploadedFile', _this4.currentTemplate[0]).then(function (response) {
         console.log(response);
         resolve(response);
         window.location.reload();
@@ -48804,6 +48786,20 @@ var actions = {
       })["catch"](function (err) {
         reject(err);
       });
+    });
+  },
+  search: function search(context, searchTerm) {
+    axios.defaults.params = {};
+    axios.defaults.params['filter'] = {
+      searchTerm: searchTerm,
+      pagination: context.pagination
+    };
+    axios.get('/api/templates/').then(function (res) {
+      context.commit('_setItems', res.data, res.data.length);
+    })["catch"](function (err) {
+      return console.log(err.response.data);
+    })["finally"](function () {
+      context.loading = false;
     });
   },
   _setItems: function _setItems(context, items, totalItems) {
