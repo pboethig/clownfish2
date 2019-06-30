@@ -2194,6 +2194,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2206,6 +2207,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       dropExistingData: false
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'templates', 'currentImportTable']), {
+    show: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit('input', value);
+      }
+    }
+  }),
   methods: {
     /**
      * Toggles is_active
@@ -2322,17 +2333,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       });
     }
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'templates', 'currentImportTable']), {
-    show: {
-      get: function get() {
-        return this.value;
-      },
-      set: function set(value) {
-        this.$emit('input', value);
-      }
-    }
-  })
+  }
 });
 
 /***/ }),
@@ -24674,7 +24675,7 @@ var render = function() {
                 "v-tab-item",
                 [
                   _c("v-card-title", [
-                    _vm.currentTemplate
+                    _vm.currentImportTable.length && _vm.currentTemplate
                       ? _c("h2", [
                           _vm._v(
                             'Edit Column Mapping of table: "' +
@@ -24682,7 +24683,11 @@ var render = function() {
                               '"'
                           )
                         ])
-                      : _vm._e()
+                      : _c("h2", [
+                          _vm._v(
+                            'No Datafile found. Please upload a datafile under "Basedata"'
+                          )
+                        ])
                   ]),
                   _vm._v(" "),
                   _c(

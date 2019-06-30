@@ -76,7 +76,8 @@
 
                 <v-tab-item>
                     <v-card-title>
-                        <h2  v-if="currentTemplate">Edit Column Mapping of table: "{{ currentTemplate.import_table}}"</h2>
+                        <h2  v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{ currentTemplate.import_table}}"</h2>
+                        <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
                     </v-card-title>
                     <v-card-title>
                         <div v-if="currentImportTable" v-for="(column, index) in currentImportTable">
@@ -108,6 +109,18 @@
                 importUrl: '',
                 dropExistingData: false,
             }
+        },
+
+        computed: {
+            ...mapState(['currentTemplate', 'templates', 'currentImportTable']),
+            show: {
+                get() {
+                    return this.value
+                },
+                set(value) {
+                    this.$emit('input', value)
+                }
+            },
         },
 
         methods: {
@@ -247,17 +260,5 @@
                 });
             }
         },
-
-        computed: {
-            ...mapState(['currentTemplate', 'templates', 'currentImportTable']),
-            show: {
-                get() {
-                    return this.value
-                },
-                set(value) {
-                    this.$emit('input', value)
-                }
-            },
-        }
     }
 </script>

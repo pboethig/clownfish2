@@ -106,8 +106,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditModal.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="43" column="44" lean-forward="true" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+            <state relative-caret-position="379">
+              <caret line="79" column="94" selection-start-line="79" selection-start-column="94" selection-end-line="79" selection-end-column="94" />
               <folding>
                 <element signature="n#style#0;n#v-flex#0;n#div#0;n#v-card-title#0;n#v-tab-item#1;n#v-tabs#0;n#v-card#0;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
               </folding>
@@ -411,12 +411,12 @@
       <updated>1561811735896</updated>
       <workItem from="1561811739219" duration="6771000" />
       <workItem from="1561840620299" duration="37634000" />
-      <workItem from="1561928281873" duration="3666000" />
+      <workItem from="1561928281873" duration="4074000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48071000" />
+    <option name="totallyTimeSpent" value="48479000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="2490" height="1413" extended-state="6" />
@@ -426,7 +426,7 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32889584" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32889584" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -435,7 +435,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32967892" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32889584" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="TypeScript" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -700,8 +700,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="43" column="44" lean-forward="true" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
+        <state relative-caret-position="379">
+          <caret line="79" column="94" selection-start-line="79" selection-start-column="94" selection-end-line="79" selection-end-column="94" />
           <folding>
             <element signature="n#style#0;n#v-flex#0;n#div#0;n#v-card-title#0;n#v-tab-item#1;n#v-tabs#0;n#v-card#0;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
           </folding>
