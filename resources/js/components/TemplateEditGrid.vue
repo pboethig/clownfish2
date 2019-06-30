@@ -44,7 +44,9 @@
                             edit
                         </v-icon>
                         <v-icon
-                                color="error">
+                                color="error"
+                                @click="deleteTemplate(props.item)"
+                        >
                             delete
                         </v-icon>
                     </td>
@@ -137,6 +139,14 @@
                 this.showTemplateEditModal=true;
 
                 this.$store.dispatch('setCurrentTemplate', template);
+            },
+
+            /**
+             * Delete
+             */
+            deleteTemplate(template)
+            {
+                this.$store.dispatch('deleteTemplate', template);
             },
         }
     }

@@ -1892,6 +1892,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2005,6 +2007,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     openEditDialog: function openEditDialog(template) {
       this.showTemplateEditModal = true;
       this.$store.dispatch('setCurrentTemplate', template);
+    },
+
+    /**
+     * Delete
+     */
+    deleteTemplate: function deleteTemplate(template) {
+      this.$store.dispatch('deleteTemplate', template);
     }
   }
 });
@@ -6534,11 +6543,22 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("v-icon", { attrs: { color: "error" } }, [
-                          _vm._v(
-                            "\n                        delete\n                    "
-                          )
-                        ])
+                        _c(
+                          "v-icon",
+                          {
+                            attrs: { color: "error" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteTemplate(props.item)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        delete\n                    "
+                            )
+                          ]
+                        )
                       ],
                       1
                     )
@@ -49096,6 +49116,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var actions = {
+  /**
+   * Add new template
+   *
+   * @param commit
+   * @param template
+   * @returns {Promise<any>}
+   * @constructor
+   */
   ADD_TEMPLATE: function ADD_TEMPLATE(_ref, template) {
     var commit = _ref.commit;
     return new Promise(function (resolve, reject) {
@@ -49106,9 +49134,22 @@ var actions = {
       });
     });
   },
+
+  /**
+   * Set current temnplate
+   *
+   * @param context
+   * @param template
+   */
   setCurrentTemplate: function setCurrentTemplate(context, template) {
     context.commit('_setCurrentTemplate', template);
   },
+
+  /**
+   * Search templates
+   * @param context
+   * @param searchTerm
+   */
   search: function search(context, searchTerm) {
     axios.defaults.params = {};
     axios.defaults.params['filter'] = {
@@ -49123,15 +49164,46 @@ var actions = {
       context.loading = false;
     });
   },
+
+  /**
+   * Set Items
+   *
+   * @param context
+   * @param items
+   * @param totalItems
+   * @private
+   */
   _setItems: function _setItems(context, items, totalItems) {
     context.commit('_setItems', {
       items: items,
       totalItems: totalItems
     });
   },
-  saveTemplate: function saveTemplate(context, template) {
-    context.commit('_saveTemplate', template);
+
+  /**
+   * Delete template
+   *
+   * @param context
+   * @param template
+   */
+  deleteTemplate: function deleteTemplate(context, template) {
+    context.loading = true;
+    axios["delete"]('/api/templates/' + template.id).then(function (res) {
+      context.dispatch('queryItems');
+    })["catch"](function (err) {
+      return console.log(err.response.data);
+    })["finally"](function () {
+      context.loading = false;
+    });
   },
+
+  /**
+   * Query templates
+   *
+   * @param context
+   * @param searchTerm
+   * @returns {Promise<any>}
+   */
   queryItems: function queryItems(context, searchTerm) {
     return new Promise(function (resolve, reject) {
       var _context$state$pagina = context.state.pagination,

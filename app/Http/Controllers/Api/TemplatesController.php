@@ -119,15 +119,13 @@ class TemplatesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @param Template $template
+     * @return bool|null
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Template $template)
     {
-        //
+        return response()->json(["message"=>$template->delete()]);
     }
 
     /**

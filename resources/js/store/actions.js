@@ -1,4 +1,13 @@
 let actions = {
+
+    /**
+     * Add new template
+     *
+     * @param commit
+     * @param template
+     * @returns {Promise<any>}
+     * @constructor
+     */
     ADD_TEMPLATE({commit}, template) {
 
         return new Promise((resolve, reject) => {
@@ -11,11 +20,22 @@ let actions = {
         })
     },
 
-
+    /**
+     * Set current temnplate
+     *
+     * @param context
+     * @param template
+     */
     setCurrentTemplate(context, template) {
         context.commit('_setCurrentTemplate', template);
 
     },
+
+    /**
+     * Search templates
+     * @param context
+     * @param searchTerm
+     */
     search(context, searchTerm) {
         axios.defaults.params = {};
         axios.defaults.params[ 'filter' ] = {
@@ -32,19 +52,42 @@ let actions = {
         })
     },
 
+    /**
+     * Set Items
+     *
+     * @param context
+     * @param items
+     * @param totalItems
+     * @private
+     */
     _setItems(context, items, totalItems) {
         context.commit('_setItems', {items, totalItems})
     },
-    saveTemplate(context, template) {
-
-
-        context.commit('_saveTemplate', template)
-
-
-
+    /**
+     * Delete template
+     *
+     * @param context
+     * @param template
+     */
+    deleteTemplate(context, template) {
+        context.loading=true;
+        axios.delete('/api/templates/'+template.id)
+            .then(res => {
+                context.dispatch('queryItems');
+            })
+            .catch(err => console.log(err.response.data)).finally(function () {
+            context.loading=false;
+        })
     },
 
 
+    /**
+     * Query templates
+     *
+     * @param context
+     * @param searchTerm
+     * @returns {Promise<any>}
+     */
     queryItems (context, searchTerm) {
 
         return new Promise((resolve, reject) => {
