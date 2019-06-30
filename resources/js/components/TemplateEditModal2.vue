@@ -1,53 +1,64 @@
 <template>
-    <div>
-        <b-modal id="modal-1" @ok="handleOk" size="xl">
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-                <div v-if="this.getCurrentTemplate().id">
-                    <b-container fluid>
-                        <fieldset>
-                            <legend>
-                                <h2>Info</h2>
-                            </legend>
 
-                            <b-list-group>
-                                <b-list-group-item>Active: {{is_active}}</b-list-group-item>
-                                <b-list-group-item>ID: {{id}}</b-list-group-item>
-                                <b-list-group-item>Name: {{name}}</b-list-group-item>
-                                <b-list-group-item>User: {{user_id}}) Name {{user_name}}</b-list-group-item>
-                                <b-list-group-item>Project: {{project_name}}</b-list-group-item>
-                                <b-list-group-item>FileType: {{file_type}}</b-list-group-item>
-                                <b-list-group-item>FilePath: {{file_path}}</b-list-group-item>
-                                <b-list-group-item>ImportTable: {{import_table}}</b-list-group-item>
-                                <b-list-group-item>ExportTable: {{export_table}}</b-list-group-item>
-                            </b-list-group>
-                        </fieldset>
-                        <br/>
-                        <fieldset>
-                            <legend><h2>Edit Data</h2></legend>
-                            <b-form-group label="Is active:">
-                                <input type="checkbox" id="checkbox" v-model="is_active">
-                                <label for="checkbox">{{is_active}}</label>
-                            </b-form-group>
+    <v-card>
+        <v-card-title>
+            Nutrition
+            <v-spacer></v-spacer>
+            <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+            ></v-text-field>
+        </v-card-title>
+        <v-data-table
+        <v-data-table
+                must-sort
+                :headers="headers"
+                :pagination.sync="pagination"
+                :rows-per-page-items="[10,50,200,500,1000]"
+                :total-items="pagination.totalItems"
+                :loading="loading"
+                :items="items"
+                class="elevation-1"
+        >
+            <template v-slot:items="props">
+                <td>{{ props.item.is_active }}</td>
+                <td class="text-xs-right">{{ props.item.id }}</td>
+                <td class="text-xs-right">{{ props.item.name }}</td>
+                <td class="text-xs-right">{{ props.item.user.name }}</td>
+                <td class="text-xs-right">{{ props.item.project.name }}</td>
+                <td class="text-xs-right">{{ props.item.file_type }}</td>
+                <td class="text-xs-right">{{ props.item.file_path }}</td>
+                <td class="text-xs-right">{{ props.item.import_table }}</td>
+                <td class="text-xs-right">{{ props.item.export_table }}</td>
+                <td class="justify-center layout px-0">
+                    <v-icon
+                            small
+                            class="mr-2"
+                            color="success"
 
-                            <b-form-group label="Name:">
-                                <b-form-input :id="name" v-model="name"></b-form-input>
-                            </b-form-group>
+                    >
+                        edit
+                    </v-icon>
+                    <v-icon
+                            small
+                            color="error"
 
-                            <b-form-file
-                                    v-model="file_path"
-                                    :state="Boolean(file_path)"
-                                    placeholder="Choose a file..."
-                                    drop-placeholder="Drop file here..."
-                                    accept=".csv"
-                            ></b-form-file>
-                            <div class="mt-3">Selected file: {{ file_path ? file_path : '' }}</div>
+                    >
+                        delete
+                    </v-icon>
+                </td>
 
-                        </fieldset>
-                    </b-container>
-                </div>
-            </form>
-        </b-modal>
-    </div>
+            </template>
+            <template v-slot:no-results>
+                <v-alert :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                </v-alert>
+            </template>
+        </v-data-table>
+    </v-card>
 </template>
 
 <script>
@@ -55,121 +66,64 @@
     import {mapState} from 'vuex'
 
     export default {
+
+        watch: {
+            pagination: {
+                handler() {
+                    this.loading = true
+
+                    console.log('watch load pagination');
+                    this.$store.dispatch('queryItems')
+                        .then(result => {
+                            this.loading = false
+                        })
+                },
+                deep: true
+            },
+            search: function ()
+            {
+
+            }
+
+        },
+
         computed:
             {
-                ...mapState(['currentTemplate']),
-                is_active:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].is_active;
-                        },
-                        set: function (newValue) {
-                            this.currentTemplate[0].is_active = newValue;
-                        }
+                ...mapState(['currentTemplate','pagination', 'items','templates']),
+                pagination: {
+                    get: function () {
+                        return this.$store.getters.pagination
                     },
-                name:
-                    {
-                        get() {
-                            return this.currentTemplate[0].name;
-                        },
-                        set: function (newValue) {
-                            this.currentTemplate[0].name = newValue;
-                        }
-                    },
-                user_id:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].user.id;
-                        }
-                    },
-                user_name:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].user.name;
-                        }
-                    },
-                project_id:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].project.name;
-                        }
-                    },
-                project_name:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].project.name;
-                        }
-                    },
-                id:
-                    {
-                        get() {
-                            return this.currentTemplate[0].id;
-                        }
+                    set: function (value) {
+                        this.$store.commit('setPagination', value)
                     }
-                ,
-                file_type:
-                    {
-                        get() {
+                },
+                items () {
 
-                            return this.currentTemplate[0].file_type;
-                        }
-                    },
-                file_path:
-                    {
-                        get() {
+                    return this.$store.getters.items
+                }
 
-                            return this.currentTemplate[0].file_path;
-                        },
-                        set: function (file) {
-                            this.currentTemplate[0].file_path = file.name;
-                            this.currentTemplate[0].file = file;
-
-                        }
-                    },
-                import_table:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].import_table;
-                        }
-                    },
-                export_table:
-                    {
-                        get() {
-
-                            return this.currentTemplate[0].import_table;
-                        }
-                    }
             },
         data() {
             return {
-                rowData: null,
-                gridApi: null,
-                columnApi: null,
-                autoGroupColumnDef: null,
+                search:'',
+                loading: false,
                 isModalVisible: false,
-            }
+                headers: [
+                    { text: 'Active', value: 'active' ,align:'left'},
+                    { text: 'ID', value: 'id' },
+                    { text: 'Name', value: 'name' ,align:'left'},
+                    { text: 'User', value: 'user.name' },
+                    { text: 'Project', value: 'project.name' },
+                    { text: 'FileType', value: 'file_type' },
+                    { text: 'FilePath', value: 'file_path' },
+                    { text: 'ImportTable', value: 'import_table' },
+                    { text: 'ExportTable', value: 'export_table' },
+                    { text: 'Actions', value: 'name', sortable: false }
+                ],
+        }
         },
         methods: {
-
-            /**
-             * Hide modal
-             */
-            hideModal() {
-                this.$root.$emit('bv::hide::modal', 'modal-1')
-            },
-
-            /**
-             * Returns current template
-             */
-            getCurrentTemplate() {
-                return this.currentTemplate[0];
-            },
 
             /**
              * Handles okay button
@@ -191,7 +145,8 @@
                         .catch(error => {
                             reject(error.response.data)
                         })
-                })
+                    });
+                }
             },
 
             /**
@@ -264,6 +219,6 @@
                     });
                 });
             }
-        }
+
     }
 </script>

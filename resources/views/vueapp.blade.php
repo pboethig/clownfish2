@@ -9,9 +9,8 @@
     <title>Outlet for SPA</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/app.css">
-
 </head>
 <body>
 <div id="app">

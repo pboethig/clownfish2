@@ -1,16 +1,11 @@
 let mutations = {
-    GET_TEMPLATES(state, templates) {
-        state.templates = templates
+    _setItems (state, { items, totalItems }) {
+        state.items = items
+        state.pagination.totalItems=totalItems;
     },
-    ADD_TEMPLATES(state, template) {
-        state.templates = [...state.templates, template]
+    setPagination (state, payload) {
+        state.pagination = payload
     },
-    SET_CURRENT_TEMPLATE(state, template) {
-        state.currentTemplate = template
-    },
-    SET_GRID_API(state, gridApi) {
-        state.gridApi = gridApi
-    }
 }
 
 export default mutations

@@ -19,9 +19,7 @@ class ProjectsTableSeeder extends Seeder
                 'user_id'    => 1,
                 'groups' => '[]',
                 'is_active' => true,
-                'import_table' => 'import_table',
-                'export_table' => 'export_table',
-                'adapter_class' => 'adapter_class',
+
             ]
         );
 
@@ -31,9 +29,7 @@ class ProjectsTableSeeder extends Seeder
                 'user_id'    => 1,
                 'groups' => '[]',
                 'is_active' => true,
-                'import_table' => 'import_table',
-                'export_table' => 'export_table',
-                'adapter_class' => 'adapter_class',
+
             ]
         );
     }

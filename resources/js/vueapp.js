@@ -1,8 +1,6 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import 'ag-grid-enterprise';
 import App from './components/App'
 import Templates from './components/Templates'
 import Page from './components/Page'
@@ -13,13 +11,14 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
 window.axios = require('axios');
 Vue.use(VueRouter);
-Vue.use(BootstrapVue);
 Vue.use(Vuex);
 Vue.use(VueSweetalert2);
 
+import Vuetify from 'vuetify'
 
+Vue.use(Vuetify);
 
-
+import 'vuetify/dist/vuetify.min.css'
 const router = new VueRouter({
     mode: 'hash',
     routes: [

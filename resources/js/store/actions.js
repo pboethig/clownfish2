@@ -11,34 +11,59 @@ let actions = {
         })
     },
 
-    GET_TEMPLATES({commit}) {
-        axios.get('/api/templates')
-            .then(res => {
-                {
-                    commit('GET_TEMPLATES', res.data)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    },
-    GET_CURRENT_TEMPLATE({commit}) {
-        axios.get('/api/templates')
-            .then(res => {
-                {
-                    commit('GET_CURRENT_TEMPLATE', res.data)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    },
-    setCurrentTemplate({commit}, template) {
 
-        alert(template);
+    queryItems (context) {
 
-        commit('SET_CURRENT_TEMPLATE', template)
+       //console.log('query items');
+
+        return new Promise((resolve, reject) => {
+
+            const {sortBy, descending, page, rowsPerPage} = context.state.pagination
+
+                axios.get('/api/templates/',
+
+                ).then(response => {
+
+                    let items = response.data.slice()
+                    const totalItems = items.length
+
+                    if (sortBy) {
+                        items = items.sort((a, b) => {
+                            const sortA = a[sortBy]
+                            const sortB = b[sortBy]
+
+                            if (descending) {
+                                if (sortA < sortB) return 1
+                                if (sortA > sortB) return -1
+                                return 0
+                            } else {
+                                if (sortA < sortB) return -1
+                                if (sortA > sortB) return 1
+                                return 0
+                            }
+                        })
+                    }
+
+                    if (rowsPerPage > 0) {
+                        items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+                    }
+
+
+                    context.commit('_setItems', {items, totalItems})
+
+                    resolve();
+
+                }).catch(function (error) {
+
+                    console.log(error);
+
+                    //reject(error)
+
+                    alert('FAILURE Uploading');
+                });
+
+        })
     }
-}
+};
 
 export default actions

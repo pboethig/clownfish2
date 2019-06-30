@@ -13,12 +13,13 @@ class Templates extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('templates');
+
         Schema::create('templates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('user_id');
             $table->integer('project_id');
-            $table->foreign('project_id')->references('project_id')->on('projects')->onDelete('cascade');
             $table->json('groups')->nullable();
             $table->string('file_path');
             $table->string('file_type');
