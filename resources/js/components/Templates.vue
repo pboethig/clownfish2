@@ -1,11 +1,10 @@
 <template>
     <div>
-        <TemplateEditModal2/>
+        <TemplateEditGrid/>
     </div>
 </template>
 <script>
-    import {AgGridVue} from "ag-grid-vue";
-    import TemplateEditModal2 from './TemplateEditModal2'
+    import TemplateEditGrid from './TemplateEditGrid'
     import store from '../store/index'
     export default {
         store,
@@ -16,7 +15,7 @@
             }
         },
         components: {
-            TemplateEditModal2,
+            TemplateEditGrid,
             store
         },
         methods: {

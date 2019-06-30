@@ -12,20 +12,25 @@ let actions = {
     },
 
 
-    queryItems (context) {
+    _setItems(context, items, totalItems) {
+        context.commit('_setItems', {items, totalItems})
+    },
+
+
+    queryItems (context, searchTerm) {
 
        //console.log('query items');
 
         return new Promise((resolve, reject) => {
 
-            const {sortBy, descending, page, rowsPerPage} = context.state.pagination
+            const {sortBy, descending, page, rowsPerPage} = context.state.pagination;
 
-                axios.get('/api/templates/',
+                axios.get('/api/templates/'
 
                 ).then(response => {
 
-                    let items = response.data.slice()
-                    const totalItems = items.length
+                    let items = response.data.slice();
+                    const totalItems = items.length;
 
                     if (sortBy) {
                         items = items.sort((a, b) => {
@@ -48,7 +53,6 @@ let actions = {
                         items = items.slice((page - 1) * rowsPerPage, page * rowsPerPage)
                     }
 
-
                     context.commit('_setItems', {items, totalItems})
 
                     resolve();
@@ -56,8 +60,6 @@ let actions = {
                 }).catch(function (error) {
 
                     console.log(error);
-
-                    //reject(error)
 
                     alert('FAILURE Uploading');
                 });

@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-card-title>
-            Nutrition
+            Verfügbare Templates
             <v-spacer></v-spacer>
             <v-text-field
                     v-model="search"
@@ -21,28 +21,28 @@
                 :items="items"
                 class="elevation-1">
             <template v-slot:items="props">
-                <td>{{ props.item.is_active }}</td>
-                <td class="text-xs-right">{{ props.item.id }}</td>
-                <td class="text-xs-right">{{ props.item.name }}</td>
-                <td class="text-xs-right">{{ props.item.user.name }}</td>
-                <td class="text-xs-right">{{ props.item.project.name }}</td>
-                <td class="text-xs-right">{{ props.item.file_type }}</td>
-                <td class="text-xs-right">{{ props.item.file_path }}</td>
-                <td class="text-xs-right">{{ props.item.import_table }}</td>
-                <td class="text-xs-right">{{ props.item.export_table }}</td>
-                <td class="justify-center layout px-0">
-                    <v-icon
-                            small
-                            class="mr-2"
-                            color="success">
-                        edit
-                    </v-icon>
-                    <v-icon
-                            small
-                            color="error">
-                        delete
-                    </v-icon>
-                </td>
+                <tr v-on:dblclick="selectRow(props.item)">
+                    <td class="text-xs-left">{{ props.item.id }}</td>
+                    <td>{{ props.item.is_active }}</td>
+                    <td class="text-xs-left">{{ props.item.name }}</td>
+                    <td class="text-xs-left">{{ props.item.user.name }}</td>
+                    <td class="text-xs-left">{{ props.item.project.name }}</td>
+                    <td class="text-xs-left">{{ props.item.file_type }}</td>
+                    <td class="text-xs-left">{{ props.item.file_path }}</td>
+                    <td class="text-xs-left">{{ props.item.import_table }}</td>
+                    <td class="text-xs-left">{{ props.item.export_table }}</td>
+                    <td class="text-xs-left layout px-0">
+                        <v-icon
+                                class="mr-2"
+                                color="success">
+                            edit
+                        </v-icon>
+                        <v-icon
+                                color="error">
+                            delete
+                        </v-icon>
+                    </td>
+                </tr>
             </template>
             <template v-slot:no-results>
                 <v-alert :value="true" color="error" icon="warning">
@@ -61,9 +61,8 @@
         watch: {
             pagination: {
                 handler() {
-                    this.loading = true
+                    this.loading = true;
 
-                    console.log('watch load pagination');
                     this.$store.dispatch('queryItems')
                         .then(result => {
                             this.loading = false
@@ -73,7 +72,9 @@
             },
             search: function ()
             {
+                this.loading = true;
 
+                this.searchTemplates();
             }
 
         },
@@ -101,20 +102,68 @@
                 loading: false,
                 isModalVisible: false,
                 headers: [
-                    { text: 'Active', value: 'active' ,align:'left'},
-                    { text: 'ID', value: 'id' },
-                    { text: 'Name', value: 'name' ,align:'left'},
-                    { text: 'User', value: 'user.name' },
-                    { text: 'Project', value: 'project.name' },
-                    { text: 'FileType', value: 'file_type' },
-                    { text: 'FilePath', value: 'file_path' },
-                    { text: 'ImportTable', value: 'import_table' },
-                    { text: 'ExportTable', value: 'export_table' },
-                    { text: 'Actions', value: 'name', sortable: false }
+                    { text: 'ID', value: 'id', width:100},
+                    { text: 'Active', value: 'active' , fixed: true, width:100},
+                    { text: 'Name', value: 'name' , fixed: true,width:300},
+                    { text: 'User', value: 'user.name', fixed: true,width:150 },
+                    { text: 'Project', value: 'project.name' , fixed: true,width:300},
+                    { text: 'FileType', value: 'file_type', fixed: true , width:100},
+                    { text: 'FilePath', value: 'file_path' , fixed: true,width:300},
+                    { text: 'ImportTable', value: 'import_table' , fixed: true,width:100},
+                    { text: 'ExportTable', value: 'export_table', fixed: true,width:100 },
+                    { text: 'Actions', value: 'name', sortable: false , fixed: true}
                 ],
         }
         },
         methods: {
+
+            /**
+             * Select Row
+             */
+            selectRow() {
+                alert('doubleclick');
+            },
+
+            /**
+             * Serach templates
+             */
+            searchTemplates() {
+                this.loading = true;
+                // get by search keyword
+                if (this.search) {
+
+                    axios.defaults.params = {};
+                    axios.defaults.params[ 'filter' ] = {
+                        searchTerm:this.search,
+                        pagination:this.pagination,
+                    };
+
+                    axios.get('/api/templates/')
+                        .then(res => {
+                            this.$store.dispatch('_setItems',  res.data,  res.data.length);
+                        })
+                        .catch(err => console.log(err.response.data))
+                        .finally(() => this.loading = false);
+                }
+                // get by sort option
+                // if (this.pagination.sortBy && !this.search) {
+                //     const direction = this.pagination.descending ? 'desc' : 'asc';
+                //     axios.get(`${environment.apiUrl}/category-order?direction=${direction}&sortBy=${this.pagination.sortBy}&page=${this.pagination.page}&per_page=${this.pagination.rowsPerPage}`)
+                //         .then(res => {
+                //             this.loading = false;
+                //             this.categories = res.data.data;
+                //             this.total = res.data.meta.total;
+                //         });
+                // } if(!this.search && !this.pagination.sortBy) {
+                //     axios.get(`${environment.apiUrl}/category?page=${this.pagination.page}&per_page=${this.pagination.rowsPerPage}`)
+                //         .then(res => {
+                //             this.categories = res.data.data;
+                //             this.total = res.data.meta.total;
+                //         })
+                //         .catch(err => console.log(err.response.data))
+                //         .finally(() => this.loading = false);
+                // }
+            },
 
             /**
              * Handles okay button

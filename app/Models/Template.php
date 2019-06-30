@@ -8,6 +8,7 @@
 namespace App\Models;
 
 use App\User;
+use Sofa\Eloquence\Eloquence;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -31,6 +32,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Template extends Eloquent
 {
+    use Eloquence;
+
+    protected $searchableColumns=['name','file_type','file_path','created_at', 'id','user.name', 'project.name'];
+
 	protected $casts = [
 		'user_id' => 'int',
 		'project_id' => 'int',

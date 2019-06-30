@@ -44,9 +44,11 @@ class TemplatesController extends Controller
     /**
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->templateRepository->all();
+        $filter = json_decode($request->get('filter', null), true);
+
+        return $this->templateRepository->filter($filter);
     }
 
     /**
@@ -104,8 +106,8 @@ class TemplatesController extends Controller
     }
 
     /**
-     * @param \App\Models\Template $template
-     *
+     * @param Template $template
+     * @return Template
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
