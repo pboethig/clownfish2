@@ -238,32 +238,6 @@
                 });
             },
 
-            /**
-             * Process UploadedFile
-             */
-            processUploadedFile() {
-
-                return new Promise((resolve, reject) => {
-
-                    axios.post('/api/templates/' + this.currentTemplate[0].id + '/processUploadedFile',
-
-                        this.currentTemplate[0]
-                    ).then(response => {
-
-                        console.log(response);
-
-                        resolve(response);
-
-                        window.location.reload();
-
-                    }).catch(function (error) {
-
-                        reject(error.response.data)
-
-                        alert('FAILURE Processing Uploaded file');
-                    });
-                });
-            }
         }
     }
 </script>

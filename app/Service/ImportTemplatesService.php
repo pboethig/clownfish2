@@ -30,15 +30,15 @@ class ImportTemplatesService
     }
 
     /**
-     * @param \App\Models\Template $template
-     *
-     * @return \App\Models\Template
+     * @param Template $template
+     * @param bool $dropExistingData
+     * @return Template
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
-    public function process(Template $template)
+    public function process(Template $template, $dropExistingData = false)
     {
-        $this->createImportTable($template, $this->getColumnsFromImportFile($template));
+        $this->createImportTable($template, $this->getColumnsFromImportFile($template), $dropExistingData);
 
         exec
         (
@@ -64,22 +64,30 @@ class ImportTemplatesService
     }
 
     /**
-     * @param \App\Models\Template $template
+     * @param Template $template
      * @param $header
+     * @param bool $dropExistingData
      */
-    private function createImportTable(Template $template, $header): void
+    private function createImportTable(Template $template, $header, bool $dropExistingData = false): void
     {
-        Schema::dropIfExists($template->import_table);
+        if ($dropExistingData) {
+            Schema::dropIfExists($template->import_table);
+        }
 
-        Schema::create(
-            $template->import_table,
-            function (Blueprint $table) use ($header)
-            {
-                foreach ($header as $column) {
-                    $table->text($column)->nullable(true);
+        try {
+            Schema::create(
+                $template->import_table,
+                function (Blueprint $table) use ($header) {
+                    foreach ($header as $column) {
+                        $table->text($column)->nullable(true);
+                    }
                 }
-            }
-        );
+            );
+        } catch (\Exception $exception) {
+            //ignore table recreation
+        }
+
+
     }
 
     /**
@@ -90,14 +98,14 @@ class ImportTemplatesService
      *
      * @return string
      */
-    private function createImportScript(Template $template, string $inputFile) : string
+    private function createImportScript(Template $template, string $inputFile): string
     {
         $sql = strtr(
             file_get_contents(__DIR__ . '/../../database/scripts/importCsv.sql'),
             [
-                '{filePath}'    => $inputFile,
+                '{filePath}' => $inputFile,
                 '{importTable}' => $this->getDatabaseName() . "." . $template->import_table,
-                '{lineEnds}'    => '\r',
+                '{lineEnds}' => '\r',
             ]
         );
 
@@ -117,11 +125,10 @@ class ImportTemplatesService
      */
     private function getColumnsFromImportFile(Template $template): array
     {
-        if ($template->file_type == "csv")
-        {
+        if ($template->file_type == "csv") {
             $header = fgets(@fopen($this->getInputFile($template), "r"), 4096);
 
-            return explode(",",explode("\r", $header)[0]);
+            return explode(",", explode("\r", $header)[0]);
         }
 
         throw new InvalidFileException("Only Csv with delimeter , and \\r allowed at the moment. Given:" . $template->file_type);

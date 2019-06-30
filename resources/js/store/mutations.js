@@ -3,6 +3,9 @@ let mutations = {
         state.items = items
         state.pagination.totalItems=totalItems;
     },
+    _setCurrentTemplate (state, template) {
+        state.currentTemplate=template
+    },
     setPagination (state, payload) {
         state.pagination = payload
     },

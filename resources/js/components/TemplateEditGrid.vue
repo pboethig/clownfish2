@@ -11,6 +11,8 @@
                     hide-details
             ></v-text-field>
         </v-card-title>
+        <TemplateEditModal v-model="showTemplateEditModal" />
+
         <v-data-table
                 must-sort
                 :headers="headers"
@@ -21,7 +23,7 @@
                 :items="items"
                 class="elevation-1">
             <template v-slot:items="props">
-                <tr v-on:dblclick="selectRow(props.item)">
+                <tr v-on:dblclick="openEditDialog(props.item)">
                     <td class="text-xs-left">{{ props.item.id }}</td>
                     <td>{{ props.item.is_active }}</td>
                     <td class="text-xs-left">{{ props.item.name }}</td>
@@ -55,8 +57,14 @@
 <script>
 
     import {mapState} from 'vuex'
+    import TemplateEditModal from './TemplateEditModal';
+
 
     export default {
+        components: {TemplateEditModal},
+        comments:{
+            TemplateEditModal
+        },
 
         watch: {
             pagination: {
@@ -72,12 +80,10 @@
             },
             search: function ()
             {
-
                 this.loading=true;
 
                 this.$store.dispatch('search', this.search);
             }
-
         },
 
         computed:
@@ -101,7 +107,7 @@
             return {
                 search:'',
                 loading: false,
-                isModalVisible: false,
+                showTemplateEditModal:false,
                 headers: [
                     { text: 'ID', value: 'id', width:100},
                     { text: 'Active', value: 'active' , fixed: true, width:100},
@@ -118,39 +124,16 @@
         },
         methods: {
 
-            /**
-             * Select Row
-             */
-            selectRow() {
-                alert('doubleclick');
-            },
+            openEditDialog(template)
+            {
 
-            /**
-             * Serach templates
-             */
-            searchTemplates() {
+                this.showTemplateEditModal=true;
 
-                this.loading = true;
+                alert('dasd');
+
+                this.$store.dispatch('setCurrentTemplate', template);
 
 
-                // get by sort option
-                // if (this.pagination.sortBy && !this.search) {
-                //     const direction = this.pagination.descending ? 'desc' : 'asc';
-                //     axios.get(`${environment.apiUrl}/category-order?direction=${direction}&sortBy=${this.pagination.sortBy}&page=${this.pagination.page}&per_page=${this.pagination.rowsPerPage}`)
-                //         .then(res => {
-                //             this.loading = false;
-                //             this.categories = res.data.data;
-                //             this.total = res.data.meta.total;
-                //         });
-                // } if(!this.search && !this.pagination.sortBy) {
-                //     axios.get(`${environment.apiUrl}/category?page=${this.pagination.page}&per_page=${this.pagination.rowsPerPage}`)
-                //         .then(res => {
-                //             this.categories = res.data.data;
-                //             this.total = res.data.meta.total;
-                //         })
-                //         .catch(err => console.log(err.response.data))
-                //         .finally(() => this.loading = false);
-                // }
             },
 
             /**
@@ -177,75 +160,5 @@
                 }
             },
 
-            /**
-             * Upload file
-             */
-            upload() {
-
-                var self = this;
-
-                let formData = new FormData();
-
-                this.currentTemplate[0].file_path = this.currentTemplate[0].id;
-
-                this.currentTemplate[0].import_table = this.currentTemplate[0].id + "_import_table";
-
-                this.currentTemplate[0].export_table = this.currentTemplate[0].id + "_export_table";
-
-                formData.append('file', this.currentTemplate[0].file);
-
-                return new Promise((resolve, reject) => {
-
-                    axios.post('/api/templates/' + this.currentTemplate[0].id + '/upload',
-
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
-                    ).then(response => {
-
-                        resolve(response);
-
-                    }).then(function () {
-
-                        self.processUploadedFile();
-
-                    }).catch(function (error) {
-
-                        reject(error.response.data)
-
-                        alert('FAILURE Uploading');
-                    });
-                });
-            },
-
-            /**
-             * Process UploadedFile
-             */
-            processUploadedFile() {
-
-                return new Promise((resolve, reject) => {
-
-                    axios.post('/api/templates/' + this.currentTemplate[0].id + '/processUploadedFile',
-
-                        this.currentTemplate[0]
-                    ).then(response => {
-
-                        console.log(response);
-
-                        resolve(response);
-
-                        window.location.reload();
-
-                    }).catch(function (error) {
-
-                        reject(error.response.data)
-
-                        alert('FAILURE Processing Uploaded file');
-                    });
-                });
-            }
     }
 </script>

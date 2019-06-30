@@ -12,6 +12,10 @@ let actions = {
     },
 
 
+    setCurrentTemplate(context, template) {
+        context.commit('_setCurrentTemplate', template);
+
+    },
     search(context, searchTerm) {
         axios.defaults.params = {};
         axios.defaults.params[ 'filter' ] = {
@@ -34,8 +38,6 @@ let actions = {
 
 
     queryItems (context, searchTerm) {
-
-       //console.log('query items');
 
         return new Promise((resolve, reject) => {
 
@@ -79,7 +81,6 @@ let actions = {
 
                     alert('FAILURE Uploading');
                 });
-
         })
     }
 };

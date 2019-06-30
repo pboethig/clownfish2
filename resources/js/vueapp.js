@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import App from './components/App'
 import Templates from './components/Templates'
-import Page from './components/Page'
 import Contact from './components/Contact'
 import VueSweetalert2 from 'vue-sweetalert2';
 
@@ -27,19 +26,6 @@ const router = new VueRouter({
             name: 'templates',
             component: Templates,
             props: { title: "This is the SPA home" }
-        },
-        {
-            path: '/pwa',
-            name: 'page',
-            component: Page,
-            props: {
-                title: "This is the SPA Second Page",
-                author : {
-                    name : "Fisayo Afolayan",
-                    role : "Software Engineer",
-                    code : "Always keep it clean"
-                }
-            }
         },
         {
             path: '/contact',

@@ -111,9 +111,11 @@ class TemplatesController extends Controller
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
-    public function processUploadedFile(Template $template)
+    public function processUploadedFile(Template $template, Request $request)
     {
-        return $this->importTemplatesService->process($template);
+        $this->setTables($template);
+
+        return $this->importTemplatesService->process($template,  $this->canDropExistingData($request));
     }
 
     /**
@@ -149,6 +151,27 @@ class TemplatesController extends Controller
         $disk->putFileAs($template->id, $uploadedFile, $filename);
 
         return [$uploadedFile, $filename];
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    public function canDropExistingData(Request $request): bool
+    {
+        $dropExistingData = $request->get('dropExistingData', null);
+
+        if ($dropExistingData == 'false') $dropExistingData = false;
+        return $dropExistingData;
+    }
+
+    /**
+     * @param Template $template
+     */
+    public function setTables(Template $template): void
+    {
+        $template->import_table = $template->id . '_' . 'import_table';
+        $template->export_table = $template->id . '_' . 'export_table';
     }
 
 }
