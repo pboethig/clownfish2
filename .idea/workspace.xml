@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c42704b7-f41f-43ca-a551-9b01bb707fe1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Api/TemplatesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/TemplatesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/vueapp.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/vueapp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/TemplateEditModal2_bak.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/store/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/store/mutations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/vueapp.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/vueapp.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,14 +22,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/js/vueapp.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="137" column="13" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
+            <state relative-caret-position="540">
+              <caret line="143" column="39" selection-start-line="143" selection-start-column="39" selection-end-line="143" selection-end-column="39" />
               <folding>
+                <element signature="n#style#0;n#v-btn#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="e#2258#2287#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/bootstrap.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="276">
+              <caret line="46" selection-start-line="46" selection-end-line="46" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -51,8 +71,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/store/mutations.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+            <state relative-caret-position="682">
+              <caret line="31" column="19" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -70,19 +90,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/js/store/getters.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/store/actions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+            <state relative-caret-position="484">
+              <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -136,15 +147,18 @@
       <find>importName</find>
       <find>toggleis_active</find>
       <find>Verfügbare</find>
-      <find>is_a</find>
-      <find>alert</find>
       <find>deleteTemplate</find>
+      <find>is_a</find>
+      <find>&lt;td&gt;</find>
+      <find>alert</find>
+      <find>moment</find>
     </findStrings>
     <replaceStrings>
       <replace>text-xs-left</replace>
       <replace>is_active</replace>
       <replace>importName</replace>
       <replace>importUrl</replace>
+      <replace>&lt;td v-on:dblclick=&quot;openEditDialog(props.item)&quot;&gt;</replace>
       <replace>toggleIsActive</replace>
     </replaceStrings>
     <dirStrings>
@@ -172,17 +186,17 @@
         <option value="$PROJECT_DIR$/resources/js/components/Templates.vue" />
         <option value="$PROJECT_DIR$/resources/js/store/state.js" />
         <option value="$PROJECT_DIR$/app/Repositories/TemplateRepository.php" />
-        <option value="$PROJECT_DIR$/resources/js/store/mutations.js" />
         <option value="$PROJECT_DIR$/resources/js/components/TemlateEditModal.vue" />
-        <option value="$PROJECT_DIR$/resources/js/vueapp.js" />
         <option value="$PROJECT_DIR$/resources/js/components/TemplateEditModal2_bak.vue" />
         <option value="$PROJECT_DIR$/app/Service/ImportTemplatesService.php" />
         <option value="$PROJECT_DIR$/app/Models/Template.php" />
         <option value="$PROJECT_DIR$/resources/js/components/TemplateEditModal.vue" />
         <option value="$PROJECT_DIR$/routes/api.php" />
-        <option value="$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Api/TemplatesController.php" />
+        <option value="$PROJECT_DIR$/resources/js/store/mutations.js" />
         <option value="$PROJECT_DIR$/resources/js/store/actions.js" />
+        <option value="$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue" />
+        <option value="$PROJECT_DIR$/resources/js/vueapp.js" />
       </list>
     </option>
   </component>
@@ -384,12 +398,12 @@
       <option name="presentableId" value="Default" />
       <updated>1561811735896</updated>
       <workItem from="1561811739219" duration="6771000" />
-      <workItem from="1561840620299" duration="33257000" />
+      <workItem from="1561840620299" duration="35275000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40028000" />
+    <option name="totallyTimeSpent" value="42046000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="2490" height="1413" extended-state="6" />
@@ -527,13 +541,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/bootstrap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Repositories/TemplateRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -549,16 +556,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/Contact.vue">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/vueapp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/storage/app/imports/templates/2000/2000_import_table.csv">
       <provider selected="true" editor-type-id="text-editor" />
@@ -610,16 +607,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1184">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-          <folding>
-            <element signature="n#style#0;n#input#0;n#v-flex#2;n#v-card-text#0;n#v-card#0;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Models/Template.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -651,27 +638,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/store/mutations.js">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        <state relative-caret-position="-1184">
+          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#v-flex#2;n#v-card-text#0;n#v-card#0;n#v-dialog#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/common.rnc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="137" column="13" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
-          <folding>
-            <element signature="e#2258#2287#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="276">
+          <caret line="121" column="18" selection-start-line="121" selection-start-column="18" selection-end-line="121" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/store/mutations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/store/actions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
+        <state relative-caret-position="484">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/TemplateEditGrid.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="143" column="39" selection-start-line="143" selection-start-column="39" selection-end-line="143" selection-end-column="39" />
+          <folding>
+            <element signature="n#style#0;n#v-btn#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#2258#2287#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/bootstrap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="46" selection-start-line="46" selection-end-line="46" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/vueapp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

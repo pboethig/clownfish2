@@ -6,7 +6,7 @@ import Templates from './components/Templates'
 import Contact from './components/Contact'
 import VueSweetalert2 from 'vue-sweetalert2';
 
-
+window.moment = require('moment');
 
 window.axios = require('axios');
 Vue.use(VueRouter);

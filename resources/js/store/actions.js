@@ -8,12 +8,15 @@ let actions = {
      * @returns {Promise<any>}
      * @constructor
      */
-    ADD_TEMPLATE({commit}, template) {
+    createTemplate({commit}, template) {
 
         return new Promise((resolve, reject) => {
             axios.post(`/api/templates`, template)
                 .then(response => {
                     resolve(response)
+
+                    context.commit('_createTemplate', template);
+
                 }).catch(err => {
                 reject(err)
             })

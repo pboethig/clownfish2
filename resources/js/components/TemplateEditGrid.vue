@@ -12,7 +12,7 @@
             ></v-text-field>
         </v-card-title>
         <TemplateEditModal v-model="showTemplateEditModal" />
-
+        <v-btn color="blue" style="color: white" @click="createTemplate">Add new template</v-btn>
         <v-data-table
                 must-sort
                 :headers="headers"
@@ -23,30 +23,28 @@
                 :items="items"
                 class="elevation-1">
             <template v-slot:items="props">
-                <tr v-on:dblclick="openEditDialog(props.item)">
-                    <td class="text-xs-left">{{ props.item.id }}</td>
-                    <td>{{ props.item.is_active }}</td>
-                    <td class="text-xs-left">{{ props.item.name }}</td>
-                    <td class="text-xs-left">{{ props.item.user.name }}</td>
-                    <td class="text-xs-left">{{ props.item.project.name }}</td>
-                    <td class="text-xs-left">{{ props.item.file_type }}</td>
-                    <td class="text-xs-left">{{ props.item.file_path }}</td>
-                    <td class="text-xs-left">{{ props.item.import_table }}</td>
-                    <td class="text-xs-left">{{ props.item.export_table }}</td>
-                    <td class="text-xs-left">{{ props.item.created_at }}</td>
-                    <td class="text-xs-left">{{ props.item.updated_at }}</td>
+                <tr>
+                    <td class="text-xs-left"  v-on:dblclick="openEditDialog(props.item)">{{ props.item.id }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)">{{ props.item.is_active }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.name }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.user.name }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.project.name }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.file_type }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.file_path }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.import_table }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.export_table }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.created_at }}</td>
+                    <td v-on:dblclick="openEditDialog(props.item)" class="text-xs-left">{{ props.item.updated_at }}</td>
                     <td class="text-xs-left layout px-0">
                         <v-icon
                                 class="mr-2"
                                 color="success"
-                                @click="openEditDialog(props.item)"
-                                >
+                                @click="openEditDialog(props.item)">
                             edit
                         </v-icon>
                         <v-icon
                                 color="error"
-                                @click="deleteTemplate(props.item)"
-                        >
+                                @click="deleteTemplate(props.item)">
                             delete
                         </v-icon>
                     </td>
@@ -63,7 +61,6 @@
 <script>
     import {mapState} from 'vuex'
     import TemplateEditModal from './TemplateEditModal';
-
 
     export default {
         components: {TemplateEditModal},
@@ -103,10 +100,8 @@
                     }
                 },
                 items () {
-
                     return this.$store.getters.items
-                }
-
+                },
             },
         data() {
             return {
@@ -127,9 +122,30 @@
                     { text: 'Updated At', value: 'updated_at', fixed: true,width:100 },
                     { text: 'Actions', value: 'name', sortable: false , fixed: true}
                 ],
-        }
+            }
         },
         methods: {
+
+            /**
+             * Create a new Template
+             */
+            createTemplate() {
+
+                let newTemplate = Object.assign({},  this.$store.getters.items[0]);
+
+                newTemplate.name='new Template';
+                newTemplate.file_path='new filepath';
+                newTemplate.file_name='new filepath';
+                newTemplate.import_table='imort_table';
+                newTemplate.import_table='export_table';
+                newTemplate.created_at= moment(new Date()).format("Y-m-d");
+                newTemplate.upated_at='';
+
+                console.log(newTemplate);
+
+                this.$store.dispatch('createTemplate', newTemplate);
+                this.$store.dispatch('queryItems')
+            },
 
             /**
              * Open edit Dialog
