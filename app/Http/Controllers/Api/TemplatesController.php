@@ -141,6 +141,31 @@ class TemplatesController extends Controller
     }
 
     /**
+     * @param Template $template
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function reflectExportTable(Template $template)
+    {
+        return Schema::getColumnListing($template->export_table);
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getExportTables() : array
+    {
+        return array_map(function ($table)
+        {
+            $_table = (array)$table;
+
+            return $_table[array_key_first($_table)];
+
+        }, DB::select("SHOW TABLES"));
+    }
+
+    /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Template $template
      *

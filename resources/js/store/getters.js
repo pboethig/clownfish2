@@ -16,6 +16,10 @@ let getters =
 
             return state.items;
         },
+        databaseTables(state) {
+
+            return state.databaseTables;
+        },
 };
 
 export default getters

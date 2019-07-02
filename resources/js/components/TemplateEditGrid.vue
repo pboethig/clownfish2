@@ -104,7 +104,7 @@
 
         computed:
             {
-                ...mapState(['currentTemplate','pagination', 'items','templates']),
+                ...mapState(['currentTemplate','pagination', 'items','templates','databaseTables']),
                 pagination: {
                     get: function () {
                         return this.$store.getters.pagination
@@ -117,6 +117,12 @@
                     return this.$store.getters.items
                 },
             },
+
+        created() {
+
+            this.setDatabaseTables();
+
+        },
         data() {
             return {
                 notificationText: "",
@@ -143,6 +149,22 @@
             }
         },
         methods: {
+
+            /**
+             * Sets databasetables
+             */
+            setDatabaseTables() {
+                axios.get('/api/templates/getExportTables')
+
+                    .then(response => {
+
+                        this.$store.dispatch('setDatabaseTables', response.data)
+                    })
+                    .catch(error => {
+                        reject(error.response.data);
+                        this.addNotification("Fail setting databasetables");
+                    })
+            },
 
             /**
              * Snackbar options
@@ -208,7 +230,6 @@
                         reject(error.response.data)
                     })
             },
-
 
             /**
              * Delete

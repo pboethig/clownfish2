@@ -24,6 +24,15 @@ let actions = {
     },
 
     /**
+     * Set databaseTables
+     * @param context
+     * @param tables
+     */
+    setDatabaseTables(context, databaseTables) {
+        context.commit('_setDatabaseTables', databaseTables);
+    },
+
+    /**
      * Set current temnplate
      *
      * @param context

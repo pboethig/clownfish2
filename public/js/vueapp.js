@@ -1931,7 +1931,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('search', this.search);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables']), {
     pagination: {
       get: function get() {
         return this.$store.getters.pagination;
@@ -1944,6 +1944,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$store.getters.items;
     }
   }),
+  created: function created() {
+    this.setDatabaseTables();
+  },
   data: function data() {
     return {
       notificationText: "",
@@ -2017,6 +2020,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: {
     /**
+     * Sets databasetables
+     */
+    setDatabaseTables: function setDatabaseTables() {
+      var _this2 = this;
+
+      axios.get('/api/templates/getExportTables').then(function (response) {
+        _this2.$store.dispatch('setDatabaseTables', response.data);
+      })["catch"](function (error) {
+        reject(error.response.data);
+
+        _this2.addNotification("Fail setting databasetables");
+      });
+    },
+
+    /**
      * Snackbar options
      * @param text               - Snackbar text
      * @param options.buttonText - Button text
@@ -2063,10 +2081,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * Loads current Table definition
      */
     setCurrentImportTable: function setCurrentImportTable() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/api/templates/' + this.currentTemplate.id + '/reflectImportTable').then(function (response) {
-        _this2.$store.dispatch('setCurrentImportTable', response.data);
+        _this3.$store.dispatch('setCurrentImportTable', response.data);
       })["catch"](function (error) {
         reject(error.response.data);
       });
@@ -2195,6 +2213,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2204,10 +2264,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       select: ['sdasdsa', 'sadasd'],
       importUrl: '',
-      dropExistingData: false
+      dropExistingData: false,
+      conditions: [1, 2, 3]
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'templates', 'currentImportTable']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable']), {
     show: {
       get: function get() {
         return this.value;
@@ -2215,9 +2276,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(value) {
         this.$emit('input', value);
       }
+    },
+    operators: {
+      get: function get() {
+        return ['=', '<=', '<', '>', '>='];
+      },
+      set: function set(value) {
+        this.$emit('input', value);
+      }
     }
   }),
   methods: {
+    deleteCondition: function deleteCondition(_index) {
+      this.conditions = this.conditions.filter(function (value, index, arr) {
+        return index !== _index;
+      });
+    },
+    addContition: function addContition() {
+      this.conditions.push(this.conditions.length + 1);
+    },
+
     /**
      * Toggles is_active
      */
@@ -24404,12 +24482,7 @@ var render = function() {
   return _c(
     "v-dialog",
     {
-      attrs: {
-        "max-width": "80%",
-        dark: "",
-        transition: "dialog-bottom-transition",
-        scrollable: ""
-      },
+      attrs: { transition: "dialog-bottom-transition" },
       model: {
         value: _vm.show,
         callback: function($$v) {
@@ -24633,39 +24706,6 @@ var render = function() {
                       _c("v-divider")
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "primary" },
-                          on: {
-                            click: function($event) {
-                              $event.stopPropagation()
-                              _vm.show = false
-                            }
-                          }
-                        },
-                        [_vm._v("Close")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "primary" },
-                          on: {
-                            click: function($event) {
-                              return _vm.saveTemplate()
-                            }
-                          }
-                        },
-                        [_vm._v("Save")]
-                      )
-                    ],
-                    1
                   )
                 ],
                 1
@@ -24673,6 +24713,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-tab-item",
+                { staticStyle: { padding: "10px" } },
                 [
                   _c("v-card-title", [
                     _vm.currentImportTable.length && _vm.currentTemplate
@@ -24691,36 +24732,260 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c(
-                    "v-card-title",
-                    _vm._l(_vm.currentImportTable, function(column, index) {
-                      return _vm.currentImportTable
-                        ? _c(
-                            "div",
+                    "v-container",
+                    { attrs: { fluid: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "blue", outline: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addContition()
+                                }
+                              }
+                            },
+                            [_vm._v("Add Condition")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-layout",
+                            { attrs: { row: "", xs12: "", wrap: "" } },
                             [
                               _c(
                                 "v-flex",
                                 {
-                                  staticStyle: {
-                                    "max-width": "200px!important"
-                                  },
-                                  attrs: { xs12: "" }
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs2: "", md2: "", lg3: "" }
                                 },
-                                [
-                                  _c("v-select", {
-                                    attrs: {
-                                      items: _vm.currentImportTable,
-                                      label: "column"
-                                    }
-                                  })
-                                ],
-                                1
+                                _vm._l(_vm.conditions, function(
+                                  column,
+                                  key,
+                                  index
+                                ) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              items: _vm.currentImportTable,
+                                              label: "source"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs1: "", md1: "", lg1: "" }
+                                },
+                                _vm._l(_vm.conditions, function(
+                                  column,
+                                  key,
+                                  index
+                                ) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              items: _vm.operators,
+                                              label: "operators"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs2: "", md3: "", lg3: "" }
+                                },
+                                _vm._l(_vm.conditions, function(
+                                  column,
+                                  key,
+                                  index
+                                ) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              items: _vm.currentImportTable,
+                                              label: "target"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs2: "", md1: "", lg1: "" }
+                                },
+                                _vm._l(_vm.conditions, function(
+                                  column,
+                                  key,
+                                  index
+                                ) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              items: ["or"],
+                                              label: "or"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs1: "", md1: "", lg1: "" }
+                                },
+                                _vm._l(_vm.conditions, function(
+                                  column,
+                                  key,
+                                  index
+                                ) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        [
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              small: "",
+                                              label: "Freetext"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                {
+                                  staticStyle: { margin: "5px" },
+                                  attrs: { xs2: "", md3: "", lg1: "" }
+                                },
+                                _vm._l(_vm.conditions, function(item, index) {
+                                  return _vm.conditions
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticStyle: {
+                                            margin: "10px 0 0 0",
+                                            pading: "0"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticStyle: {
+                                                margin: "0px 0 30px 0"
+                                              },
+                                              attrs: {
+                                                color: "blue",
+                                                outline: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.deleteCondition(
+                                                    index
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [_vm._v("Delete")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                }),
+                                0
                               )
                             ],
                             1
                           )
-                        : _vm._e()
-                    }),
-                    0
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", outline: "" },
+                      on: {
+                        click: function($event) {
+                          $event.stopPropagation()
+                          _vm.show = false
+                        }
+                      }
+                    },
+                    [_vm._v("Close")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", outline: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.saveTemplate()
+                        }
+                      }
+                    },
+                    [_vm._v("Save")]
                   )
                 ],
                 1
@@ -67065,6 +67330,15 @@ var actions = {
   },
 
   /**
+   * Set databaseTables
+   * @param context
+   * @param tables
+   */
+  setDatabaseTables: function setDatabaseTables(context, databaseTables) {
+    context.commit('_setDatabaseTables', databaseTables);
+  },
+
+  /**
    * Set current temnplate
    *
    * @param context
@@ -67214,6 +67488,9 @@ var getters = {
   },
   items: function items(state) {
     return state.items;
+  },
+  databaseTables: function databaseTables(state) {
+    return state.databaseTables;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (getters);
@@ -67300,6 +67577,17 @@ var mutations = {
   },
 
   /**
+   * Set databaseTables
+   *
+   * @param state
+   * @param databaseTables
+   * @private
+   */
+  _setDatabaseTables: function _setDatabaseTables(state, databaseTables) {
+    state.databaseTables = databaseTables;
+  },
+
+  /**
    * Crate a new template
    *
    * @param state
@@ -67335,6 +67623,7 @@ __webpack_require__.r(__webpack_exports__);
 var state = {
   currentTemplate: null,
   currentImportTable: [],
+  databaseTables: [],
   pagination: {
     descending: true,
     page: 1,

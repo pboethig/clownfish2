@@ -1,16 +1,11 @@
 <template>
-    <v-dialog v-model="show" max-width="80%"
-              dark
-              transition="dialog-bottom-transition"
-              scrollable>
-
+    <v-dialog v-model="show"
+              transition="dialog-bottom-transition">
         <v-card>
             <v-tabs
-
                     color="blue"
                     dark
-                    slider-color="yellow"
-            >
+                    slider-color="yellow">
                 <v-tab ripple>
                     Base Data
                 </v-tab>
@@ -18,7 +13,7 @@
                     Mapping
                 </v-tab>
                 <v-tab-item>
-                    <v-card-title  v-if="currentTemplate">
+                    <v-card-title v-if="currentTemplate">
                         <h2>Edit Template "{{currentTemplate.name}}"</h2>
                     </v-card-title>
                     <!-- Snackbar -->
@@ -37,15 +32,17 @@
 
                         <v-divider/>
                         <v-flex xs12 sm6 md3>
-                            <v-text-field  v-if="currentTemplate"
-                                    label="Name *"
-                                    placeholder="The name of the template"
-                                    v-model="currentTemplate.name"
+                            <v-text-field v-if="currentTemplate"
+                                          label="Name *"
+                                          placeholder="The name of the template"
+                                          v-model="currentTemplate.name"
                             ></v-text-field>
                         </v-flex>
                         <v-divider/>
-                        <v-flex v-if="currentTemplate" xs12 sm6 md3 class="text-xs-center text-sm-center text-md-center text-lg-center">
-                            <v-text-field label="Select ImportFile" @click='pickFile' v-model='currentTemplate.file_path'></v-text-field>
+                        <v-flex v-if="currentTemplate" xs12 sm6 md3
+                                class="text-xs-center text-sm-center text-md-center text-lg-center">
+                            <v-text-field label="Select ImportFile" @click='pickFile'
+                                          v-model='currentTemplate.file_path'></v-text-field>
                             <input
                                     type="file"
                                     style="display: none"
@@ -67,29 +64,74 @@
                         </v-flex>
                         <v-divider/>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn color="primary" @click.stop="show=false">Close</v-btn>
-                        <v-btn color="primary" @click="saveTemplate()">Save</v-btn>
-                    </v-card-actions>
                 </v-tab-item>
 
 
-                <v-tab-item>
+                <v-tab-item style="padding: 10px">
                     <v-card-title>
-                        <h2  v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{ currentTemplate.import_table}}"</h2>
+                        <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{
+                            currentTemplate.import_table}}"</h2>
                         <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
                     </v-card-title>
-                    <v-card-title>
-                        <div v-if="currentImportTable" v-for="(column, index) in currentImportTable">
-                            <v-flex xs12 style="max-width:200px!important">
-                                <v-select
-                                        :items="currentImportTable"
-                                        label="column"
-                                ></v-select>
+                    <v-container fluid>
+                            <v-flex xs12>
+                                <v-btn color="blue" outline @click="addContition()">Add Condition</v-btn>
+                                <v-layout row xs12  wrap>
+                                    <v-flex xs2 md2 lg3 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                             <v-select
+                                                    :items="currentImportTable"
+                                                    label="source"
+                                            ></v-select>
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs1 md1 lg1 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                            <v-select
+                                                    :items="operators"
+                                                    label="operators"
+                                            ></v-select>
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs2 md3 lg3 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                            <v-select
+                                                    :items="currentImportTable"
+                                                    label="target"
+                                            ></v-select>
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs2 md1 lg1 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                            <v-select
+                                                    :items="['or']"
+                                                    label="or"
+                                            ></v-select>
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs1 md1 lg1 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                            <v-text-field
+                                                          small label="Freetext"
+                                            ></v-text-field>
+                                        </div>
+
+                                    </v-flex>
+
+                                    <v-flex xs2 md3 lg1 style="margin: 5px">
+                                        <div v-if="conditions" v-for="(item,index) in conditions" style="margin:10px 0 0 0;height30px;pading:0;">
+                                            <v-btn style="margin:0px 0 30px 0" color="blue" outline @click="deleteCondition(index)">Delete</v-btn>
+                                        </div>
+
+                                    </v-flex>
+                                </v-layout>
                             </v-flex>
-                            </div>
-                    </v-card-title>
+                    </v-container>
                 </v-tab-item>
+                <v-card-actions>
+                    <v-btn color="primary" outline @click.stop="show=false">Close</v-btn>
+                    <v-btn color="primary" outline @click="saveTemplate()">Save</v-btn>
+                </v-card-actions>
             </v-tabs>
         </v-card>
     </v-dialog>
@@ -108,11 +150,12 @@
                 select: ['sdasdsa', 'sadasd'],
                 importUrl: '',
                 dropExistingData: false,
+                conditions:[1,2,3],
             }
         },
 
         computed: {
-            ...mapState(['currentTemplate', 'templates', 'currentImportTable']),
+            ...mapState(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable']),
             show: {
                 get() {
                     return this.value
@@ -121,9 +164,28 @@
                     this.$emit('input', value)
                 }
             },
+
+            operators: {
+                get() {
+                    return ['=','<=','<','>','>=']
+                },
+                set(value) {
+                    this.$emit('input', value)
+                }
+            },
         },
 
         methods: {
+
+            deleteCondition(_index) {
+                this.conditions = this.conditions.filter(function(value, index, arr){
+                    return index !== _index;
+                });
+            },
+            addContition() {
+
+                this.conditions.push(this.conditions.length + 1)
+            },
             /**
              * Toggles is_active
              */

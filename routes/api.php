@@ -31,10 +31,8 @@ Route::post('templates/{template}/processUploadedFile', 'Api\TemplatesController
 Route::put('templates/{template}', 'Api\TemplatesController@update');
 Route::delete('templates/{template}', 'Api\TemplatesController@destroy');
 Route::get('templates/{template}/reflectImportTable', 'Api\TemplatesController@reflectImportTable');
-
-Route::get('templates/{id}', function(TemplateRepository $templateRepository, int $id) {
-    return $templateRepository->getById($id);
-});
+Route::get('templates/{template}reflectExportTable', 'Api\TemplatesController@reflectExportTable');
+Route::get('templates/getExportTables', 'Api\TemplatesController@getExportTables');
 
 Use \App\Repositories\GroupsRepository;
 

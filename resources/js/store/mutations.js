@@ -34,6 +34,17 @@ let mutations = {
     _setCurrentImportTable (state, currentImportTable) {
         state.currentImportTable=currentImportTable
     },
+
+    /**
+     * Set databaseTables
+     *
+     * @param state
+     * @param databaseTables
+     * @private
+     */
+    _setDatabaseTables (state, databaseTables) {
+        state.databaseTables=databaseTables
+    },
     /**
      * Crate a new template
      *
