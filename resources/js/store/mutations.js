@@ -45,6 +45,17 @@ let mutations = {
     _setDatabaseTables (state, databaseTables) {
         state.databaseTables=databaseTables
     },
+
+    /**
+     * Set conditions
+     *
+     * @param state
+     * @param databaseTables
+     * @private
+     */
+    _setConditions (state, conditions) {
+        state.conditions=conditions
+    },
     /**
      * Crate a new template
      *

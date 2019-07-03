@@ -75,34 +75,37 @@
                     </v-card-title>
                     <v-container fluid>
                             <v-flex xs12>
-                                <v-btn color="blue" outline @click="addContition()">Add Condition</v-btn>
+                                <v-btn color="blue" outline @click="addCondition()">Add Condition</v-btn>
                                 <v-layout row xs12  wrap>
                                     <v-flex xs2 md2 lg3 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                        <div v-if="conditions" v-for="(column,key) in conditions">
                                              <v-select
-                                                    :items="currentImportTable"
+                                                    :items="column.sourceColumns"
                                                     label="source"
+                                                    v-model="column.sourceColumns[key]"
                                             ></v-select>
                                         </div>
                                     </v-flex>
                                     <v-flex xs1 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                        <div v-if="conditions" v-for="(column,key) in conditions">
                                             <v-select
-                                                    :items="operators"
+                                                    :items="column.operators"
                                                     label="operators"
+                                                    v-model="column.operators[key]"
                                             ></v-select>
                                         </div>
                                     </v-flex>
                                     <v-flex xs2 md3 lg3 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                        <div v-if="conditions" v-for="(column,key) in conditions">
                                             <v-select
-                                                    :items="currentImportTable"
+                                                    :items="column.targetColumns"
                                                     label="target"
+                                                    v-model="column.targetColumns[key]"
                                             ></v-select>
                                         </div>
                                     </v-flex>
                                     <v-flex xs2 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                        <div v-if="conditions" v-for="(column,key) in conditions">
                                             <v-select
                                                     :items="['or']"
                                                     label="or"
@@ -110,9 +113,10 @@
                                         </div>
                                     </v-flex>
                                     <v-flex xs1 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key, index) in conditions">
+                                        <div v-if="conditions" v-for="(column,key) in conditions">
                                             <v-text-field
                                                           small label="Freetext"
+                                                          v-model="column.freetext"
                                             ></v-text-field>
                                         </div>
 
@@ -150,7 +154,8 @@
                 select: ['sdasdsa', 'sadasd'],
                 importUrl: '',
                 dropExistingData: false,
-                conditions:[1,2,3],
+                sourceColumns:[],
+
             }
         },
 
@@ -173,18 +178,37 @@
                     this.$emit('input', value)
                 }
             },
+            conditions: {
+
+                get(){
+                return this.$store.getters.conditions;
+            },
+                set(value){
+                    this.conditions = value;
+                },
+            },
+
         },
 
         methods: {
 
+            /**
+             * delete condition
+             */
             deleteCondition(_index) {
-                this.conditions = this.conditions.filter(function(value, index, arr){
+                let conditions = this.conditions.filter(function(value, index){
                     return index !== _index;
                 });
-            },
-            addContition() {
 
-                this.conditions.push(this.conditions.length + 1)
+                this.$store.dispatch("setConditions", conditions);
+            },
+            /**
+             * Add conditions
+             */
+            addCondition() {
+
+                this.conditions.push({'sourceColumns':this.$store.getters.currentImportTable, operators:this.operators, 'targetColumns':this.$store.getters.currentImportTable, 'freetext':'test'});
+                this.$store.dispatch("setConditions", this.conditions);
             },
             /**
              * Toggles is_active
@@ -193,6 +217,7 @@
 
                 this.currentTemplate.is_active = !this.currentTemplate.is_active;
             },
+
 
             /**
              * Picks file

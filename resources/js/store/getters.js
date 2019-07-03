@@ -20,6 +20,9 @@ let getters =
 
             return state.databaseTables;
         },
+        conditions(state){
+            return state.conditions;
+        },
 };
 
 export default getters

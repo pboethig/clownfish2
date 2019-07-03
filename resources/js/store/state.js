@@ -2,6 +2,7 @@ let state = {
     currentTemplate:null,
     currentImportTable:[],
     databaseTables:[],
+    conditions:[],
     pagination: {
         descending: true,
         page: 1,

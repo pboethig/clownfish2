@@ -32,6 +32,16 @@ let actions = {
         context.commit('_setDatabaseTables', databaseTables);
     },
 
+
+    /**
+     * Set conditions
+     * @param context
+     * @param tables
+     */
+    setConditions(context, conditions) {
+        context.commit('_setConditions', conditions);
+    },
+
     /**
      * Set current temnplate
      *

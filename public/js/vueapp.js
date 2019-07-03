@@ -2255,6 +2255,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2265,7 +2269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       select: ['sdasdsa', 'sadasd'],
       importUrl: '',
       dropExistingData: false,
-      conditions: [1, 2, 3]
+      sourceColumns: []
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable']), {
@@ -2284,16 +2288,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(value) {
         this.$emit('input', value);
       }
+    },
+    conditions: {
+      get: function get() {
+        return this.$store.getters.conditions;
+      },
+      set: function set(value) {
+        this.conditions = value;
+      }
     }
   }),
   methods: {
+    /**
+     * delete condition
+     */
     deleteCondition: function deleteCondition(_index) {
-      this.conditions = this.conditions.filter(function (value, index, arr) {
+      var conditions = this.conditions.filter(function (value, index) {
         return index !== _index;
       });
+      this.$store.dispatch("setConditions", conditions);
     },
-    addContition: function addContition() {
-      this.conditions.push(this.conditions.length + 1);
+
+    /**
+     * Add conditions
+     */
+    addCondition: function addCondition() {
+      this.conditions.push({
+        'sourceColumns': this.$store.getters.currentImportTable,
+        operators: this.operators,
+        'targetColumns': this.$store.getters.currentImportTable,
+        'freetext': 'test'
+      });
+      this.$store.dispatch("setConditions", this.conditions);
     },
 
     /**
@@ -24745,7 +24771,7 @@ var render = function() {
                               attrs: { color: "blue", outline: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.addContition()
+                                  return _vm.addCondition()
                                 }
                               }
                             },
@@ -24762,19 +24788,27 @@ var render = function() {
                                   staticStyle: { margin: "5px" },
                                   attrs: { xs2: "", md2: "", lg3: "" }
                                 },
-                                _vm._l(_vm.conditions, function(
-                                  column,
-                                  key,
-                                  index
-                                ) {
+                                _vm._l(_vm.conditions, function(column, key) {
                                   return _vm.conditions
                                     ? _c(
                                         "div",
                                         [
                                           _c("v-select", {
                                             attrs: {
-                                              items: _vm.currentImportTable,
+                                              items: column.sourceColumns,
                                               label: "source"
+                                            },
+                                            model: {
+                                              value: column.sourceColumns[key],
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  column.sourceColumns,
+                                                  key,
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "column.sourceColumns[key]"
                                             }
                                           })
                                         ],
@@ -24791,19 +24825,27 @@ var render = function() {
                                   staticStyle: { margin: "5px" },
                                   attrs: { xs1: "", md1: "", lg1: "" }
                                 },
-                                _vm._l(_vm.conditions, function(
-                                  column,
-                                  key,
-                                  index
-                                ) {
+                                _vm._l(_vm.conditions, function(column, key) {
                                   return _vm.conditions
                                     ? _c(
                                         "div",
                                         [
                                           _c("v-select", {
                                             attrs: {
-                                              items: _vm.operators,
+                                              items: column.operators,
                                               label: "operators"
+                                            },
+                                            model: {
+                                              value: column.operators[key],
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  column.operators,
+                                                  key,
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "column.operators[key]"
                                             }
                                           })
                                         ],
@@ -24820,19 +24862,27 @@ var render = function() {
                                   staticStyle: { margin: "5px" },
                                   attrs: { xs2: "", md3: "", lg3: "" }
                                 },
-                                _vm._l(_vm.conditions, function(
-                                  column,
-                                  key,
-                                  index
-                                ) {
+                                _vm._l(_vm.conditions, function(column, key) {
                                   return _vm.conditions
                                     ? _c(
                                         "div",
                                         [
                                           _c("v-select", {
                                             attrs: {
-                                              items: _vm.currentImportTable,
+                                              items: column.targetColumns,
                                               label: "target"
+                                            },
+                                            model: {
+                                              value: column.targetColumns[key],
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  column.targetColumns,
+                                                  key,
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "column.targetColumns[key]"
                                             }
                                           })
                                         ],
@@ -24849,11 +24899,7 @@ var render = function() {
                                   staticStyle: { margin: "5px" },
                                   attrs: { xs2: "", md1: "", lg1: "" }
                                 },
-                                _vm._l(_vm.conditions, function(
-                                  column,
-                                  key,
-                                  index
-                                ) {
+                                _vm._l(_vm.conditions, function(column, key) {
                                   return _vm.conditions
                                     ? _c(
                                         "div",
@@ -24878,11 +24924,7 @@ var render = function() {
                                   staticStyle: { margin: "5px" },
                                   attrs: { xs1: "", md1: "", lg1: "" }
                                 },
-                                _vm._l(_vm.conditions, function(
-                                  column,
-                                  key,
-                                  index
-                                ) {
+                                _vm._l(_vm.conditions, function(column, key) {
                                   return _vm.conditions
                                     ? _c(
                                         "div",
@@ -24891,6 +24933,17 @@ var render = function() {
                                             attrs: {
                                               small: "",
                                               label: "Freetext"
+                                            },
+                                            model: {
+                                              value: column.freetext,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  column,
+                                                  "freetext",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "column.freetext"
                                             }
                                           })
                                         ],
@@ -67339,6 +67392,15 @@ var actions = {
   },
 
   /**
+   * Set conditions
+   * @param context
+   * @param tables
+   */
+  setConditions: function setConditions(context, conditions) {
+    context.commit('_setConditions', conditions);
+  },
+
+  /**
    * Set current temnplate
    *
    * @param context
@@ -67491,6 +67553,9 @@ var getters = {
   },
   databaseTables: function databaseTables(state) {
     return state.databaseTables;
+  },
+  conditions: function conditions(state) {
+    return state.conditions;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (getters);
@@ -67588,6 +67653,17 @@ var mutations = {
   },
 
   /**
+   * Set conditions
+   *
+   * @param state
+   * @param databaseTables
+   * @private
+   */
+  _setConditions: function _setConditions(state, conditions) {
+    state.conditions = conditions;
+  },
+
+  /**
    * Crate a new template
    *
    * @param state
@@ -67624,6 +67700,7 @@ var state = {
   currentTemplate: null,
   currentImportTable: [],
   databaseTables: [],
+  conditions: [],
   pagination: {
     descending: true,
     page: 1,
