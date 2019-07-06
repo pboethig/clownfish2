@@ -29,15 +29,16 @@ class Condition extends Eloquent
 
 	protected $casts = [
 		'template_id' => 'int',
-		'is_active' => 'bool'
+		'is_active' => 'bool',
+
 	];
 
 	protected $fillable = [
 		'name',
 		'template_id',
 		'is_active',
-		'column_name',
-		'target_column_name',
-		'class_name'
+		'conditions',
+        'created_at',
+        'updated_at'
 	];
 }

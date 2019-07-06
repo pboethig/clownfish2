@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Condition;
 use App\Models\Template;
 use App\Repositories\TemplateRepository;
 use App\Service\ImportTemplatesService;
@@ -209,5 +210,4 @@ class TemplatesController extends Controller
         $template->export_table = $template->id . '_' . 'export_table';
         $template->save();
     }
-
 }

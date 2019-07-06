@@ -61,7 +61,8 @@ class Template extends Eloquent
 
     protected $with=[
         'project',
-        'user'
+        'user',
+        'conditions'
     ];
 
     /**
@@ -80,5 +81,12 @@ class Template extends Eloquent
         return $this->hasOne(User::class,'id', 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function conditions()
+    {
+        return $this->hasMany(Condition::class,'template_id', 'id');
+    }
 
 }

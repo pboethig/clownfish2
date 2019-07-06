@@ -33,6 +33,7 @@ Route::delete('templates/{template}', 'Api\TemplatesController@destroy');
 Route::get('templates/{template}/reflectImportTable', 'Api\TemplatesController@reflectImportTable');
 Route::get('templates/{template}reflectExportTable', 'Api\TemplatesController@reflectExportTable');
 Route::get('templates/getExportTables', 'Api\TemplatesController@getExportTables');
+Route::post('templates/saveSelectedConditions', 'Api\TemplatesController@saveSelectedConditions');
 
 Use \App\Repositories\GroupsRepository;
 
