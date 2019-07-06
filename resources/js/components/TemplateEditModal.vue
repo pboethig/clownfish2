@@ -16,7 +16,7 @@
                     <v-card-title v-if="currentTemplate">
                         <h2>Edit Template "{{currentTemplate.name}}"</h2>
                     </v-card-title>
-                    
+
                     <v-card-text>
                         <v-divider/>
                         <v-flex xs12 sm6 md3 v-if="currentTemplate">
@@ -66,12 +66,8 @@
                     </v-card-text>
                 </v-tab-item>
 
-
+                <!-- Tab Mapping -->
                 <v-tab-item style="padding: 10px">
-
-
-
-
                     <v-tabs
                             color="orange"
                             dark
@@ -83,22 +79,22 @@
                             Simple mapping
                         </v-tab>
                         <v-tab-item>
-
                             <v-card-title>
-                                <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{
+                                <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table:
+                                    "{{
                                     currentTemplate.import_table}}"</h2>
                                 <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
                             </v-card-title>
                             <v-container fluid>
                                 <v-flex xs12>
                                     <v-btn color="blue" outline @click="addCondition()">Add Condition</v-btn>
-                                    <v-layout row xs12  wrap>
+                                    <v-layout row xs12 wrap>
                                         <v-flex xs2 md2 lg3 style="margin: 5px">
                                             <div v-if="conditions" v-for="(column,key) in conditions">
                                                 <v-select
                                                         :items="column.sourceColumns"
                                                         label="source"
-                                                        v-model="column.sourceColumns[key]"
+                                                        v-model="selectedConditions.sourceColumns[key]"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -107,7 +103,7 @@
                                                 <v-select
                                                         :items="column.operators"
                                                         label="operators"
-                                                        v-model="column.operators[key]"
+                                                        v-model="selectedConditions.targetColumns[key]"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -116,7 +112,7 @@
                                                 <v-select
                                                         :items="column.targetColumns"
                                                         label="target"
-                                                        v-model="column.targetColumns[key]"
+                                                        v-model="selectedConditions.operators[key]"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -132,24 +128,22 @@
                                             <div v-if="conditions" v-for="(column,key) in conditions">
                                                 <v-text-field
                                                         small label="Freetext"
-                                                        v-model="column.freetext"
+                                                        v-model="selectedConditions.freetext[key]"
                                                 ></v-text-field>
                                             </div>
-
                                         </v-flex>
-
                                         <v-flex xs2 md3 lg1 style="margin: 5px">
-                                            <div v-if="conditions" v-for="(item,index) in conditions" style="margin:10px 0 0 0;height30px;pading:0;">
-                                                <v-btn style="margin:0px 0 30px 0" color="blue" outline @click="deleteCondition(index)">Delete</v-btn>
+                                            <div v-if="conditions" v-for="(item,index) in conditions"
+                                                 style="margin:10px 0 0 0;height30px;pading:0;">
+                                                <v-btn style="margin:0px 0 30px 0" color="blue" outline
+                                                       @click="deleteCondition(index)">Delete
+                                                </v-btn>
                                             </div>
-
                                         </v-flex>
                                     </v-layout>
                                 </v-flex>
                             </v-container>
                         </v-tab-item>
-
-
                         <v-tab-item style="padding: 10px">
                             <v-card-title>
                                 <h2>Simple mappings"</h2>
@@ -157,7 +151,7 @@
                             <v-container fluid>
                                 <v-flex xs12>
                                     <v-btn color="blue" outline @click="addSimpleMappings()">Add simple mapping</v-btn>
-                                    <v-layout row xs12  wrap>
+                                    <v-layout row xs12 wrap>
                                         <v-flex xs2 md2 lg3 style="margin: 5px">
 
 
@@ -166,16 +160,10 @@
                                 </v-flex>
                             </v-container>
                         </v-tab-item>
-
+                        <v-card-actions>
+                            <v-btn color="primary" outline @click="saveConditions()">Save conditions</v-btn>
+                        </v-card-actions>
                     </v-tabs>
-
-
-
-
-
-
-
-
                 </v-tab-item>
                 <v-card-actions>
                     <v-btn color="primary" outline @click.stop="show=false">Close</v-btn>
@@ -199,13 +187,13 @@
                 select: ['sdasdsa', 'sadasd'],
                 importUrl: '',
                 dropExistingData: false,
-                sourceColumns:[],
-
+                sourceColumns: [],
+                targetColumns: [],
             }
         },
 
         computed: {
-            ...mapState(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable']),
+            ...mapState(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable','selectedConditions']),
             show: {
                 get() {
                     return this.value
@@ -217,7 +205,7 @@
 
             operators: {
                 get() {
-                    return ['=','<=','<','>','>=']
+                    return ['=', '<=', '<', '>', '>=']
                 },
                 set(value) {
                     this.$emit('input', value)
@@ -225,10 +213,11 @@
             },
             conditions: {
 
-                get(){
-                return this.$store.getters.conditions;
-            },
-                set(value){
+                get()
+                {
+                    return this.$store.getters.conditions;
+                },
+                set(value) {
                     this.conditions = value;
                 },
             },
@@ -238,10 +227,22 @@
         methods: {
 
             /**
+             * Save conditions
+             */
+            saveConditions() {
+
+                console.log(this.selectedConditions);
+
+                this.$store.dispatch('setSelectedConditions', this.selectedConditions)
+
+
+            },
+
+            /**
              * delete condition
              */
             deleteCondition(_index) {
-                let conditions = this.conditions.filter(function(value, index){
+                let conditions = this.conditions.filter(function (value, index) {
                     return index !== _index;
                 });
 
@@ -252,7 +253,12 @@
              */
             addCondition() {
 
-                this.conditions.push({'sourceColumns':this.$store.getters.currentImportTable, operators:this.operators, 'targetColumns':this.$store.getters.currentImportTable, 'freetext':'test'});
+                this.conditions.push({
+                    'sourceColumns': this.$store.getters.currentImportTable,
+                    operators: this.operators,
+                    'targetColumns': this.$store.getters.currentImportTable,
+                    'freetext': 'test'
+                });
                 this.$store.dispatch("setConditions", this.conditions);
             },
             /**

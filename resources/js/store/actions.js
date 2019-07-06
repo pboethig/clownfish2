@@ -111,7 +111,16 @@ let actions = {
             context.loading=false;
         })
     },
+    /**
+     * set selectedConditions
+     *
+     * @param context
+     * @param selectedConditions
+     */
+    setSelectedConditions(context, selectedConditions) {
 
+       context.commit("_setSelectedConditions", selectedConditions);
+    },
 
     /**
      * Query templates

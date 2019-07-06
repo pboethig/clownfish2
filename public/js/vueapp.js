@@ -2292,18 +2292,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2314,10 +2302,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       select: ['sdasdsa', 'sadasd'],
       importUrl: '',
       dropExistingData: false,
-      sourceColumns: []
+      sourceColumns: [],
+      targetColumns: []
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable', 'selectedConditions']), {
     show: {
       get: function get() {
         return this.value;
@@ -2344,6 +2333,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: {
+    /**
+     * Save conditions
+     */
+    saveConditions: function saveConditions() {
+      console.log(this.selectedConditions);
+      this.$store.dispatch('setSelectedConditions', this.selectedConditions);
+    },
+
     /**
      * delete condition
      */
@@ -24815,7 +24812,7 @@ var render = function() {
                             _vm.currentImportTable.length && _vm.currentTemplate
                               ? _c("h2", [
                                   _vm._v(
-                                    'Edit Column Mapping of table: "' +
+                                    'Edit Column Mapping of table:\n                                "' +
                                       _vm._s(_vm.currentTemplate.import_table) +
                                       '"'
                                   )
@@ -24874,18 +24871,18 @@ var render = function() {
                                                     },
                                                     model: {
                                                       value:
-                                                        column.sourceColumns[
-                                                          key
-                                                        ],
+                                                        _vm.selectedConditions
+                                                          .sourceColumns[key],
                                                       callback: function($$v) {
                                                         _vm.$set(
-                                                          column.sourceColumns,
+                                                          _vm.selectedConditions
+                                                            .sourceColumns,
                                                           key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "column.sourceColumns[key]"
+                                                        "selectedConditions.sourceColumns[key]"
                                                     }
                                                   })
                                                 ],
@@ -24917,16 +24914,18 @@ var render = function() {
                                                     },
                                                     model: {
                                                       value:
-                                                        column.operators[key],
+                                                        _vm.selectedConditions
+                                                          .targetColumns[key],
                                                       callback: function($$v) {
                                                         _vm.$set(
-                                                          column.operators,
+                                                          _vm.selectedConditions
+                                                            .targetColumns,
                                                           key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "column.operators[key]"
+                                                        "selectedConditions.targetColumns[key]"
                                                     }
                                                   })
                                                 ],
@@ -24959,18 +24958,18 @@ var render = function() {
                                                     },
                                                     model: {
                                                       value:
-                                                        column.targetColumns[
-                                                          key
-                                                        ],
+                                                        _vm.selectedConditions
+                                                          .operators[key],
                                                       callback: function($$v) {
                                                         _vm.$set(
-                                                          column.targetColumns,
+                                                          _vm.selectedConditions
+                                                            .operators,
                                                           key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "column.targetColumns[key]"
+                                                        "selectedConditions.operators[key]"
                                                     }
                                                   })
                                                 ],
@@ -25029,16 +25028,19 @@ var render = function() {
                                                       label: "Freetext"
                                                     },
                                                     model: {
-                                                      value: column.freetext,
+                                                      value:
+                                                        _vm.selectedConditions
+                                                          .freetext[key],
                                                       callback: function($$v) {
                                                         _vm.$set(
-                                                          column,
-                                                          "freetext",
+                                                          _vm.selectedConditions
+                                                            .freetext,
+                                                          key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "column.freetext"
+                                                        "selectedConditions.freetext[key]"
                                                     }
                                                   })
                                                 ],
@@ -25089,7 +25091,11 @@ var render = function() {
                                                         }
                                                       }
                                                     },
-                                                    [_vm._v("Delete")]
+                                                    [
+                                                      _vm._v(
+                                                        "Delete\n                                            "
+                                                      )
+                                                    ]
                                                   )
                                                 ],
                                                 1
@@ -25156,6 +25162,25 @@ var render = function() {
                               )
                             ],
                             1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary", outline: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.saveConditions()
+                                }
+                              }
+                            },
+                            [_vm._v("Save conditions")]
                           )
                         ],
                         1
@@ -67628,6 +67653,16 @@ var actions = {
   },
 
   /**
+   * set selectedConditions
+   *
+   * @param context
+   * @param selectedConditions
+   */
+  setSelectedConditions: function setSelectedConditions(context, selectedConditions) {
+    context.commit("_setSelectedConditions", selectedConditions);
+  },
+
+  /**
    * Query templates
    *
    * @param context
@@ -67692,26 +67727,83 @@ var actions = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var getters = {
+  /**
+   * return current template
+   *
+   * @param state
+   * @returns {getters.currentTemplate|(function(*))|null|getters.currentTemplate|currentTemplate}
+   */
   currentTemplate: function currentTemplate(state) {
     return state.currentTemplate;
   },
+
+  /**
+   * return current template
+   *
+   * @param state
+   * @returns {getters.currentImportTable|(function(*))|Array|getters.currentImportTable|currentImportTable}
+   */
   currentImportTable: function currentImportTable(state) {
     return state.currentImportTable;
   },
+
+  /**
+   * Return current loading state
+   *
+   * @param state
+   * @returns {*}
+   */
   loading: function loading(state) {
     return state.loading;
   },
+
+  /**
+   * Return pagination
+   *
+   * @param state
+   * @returns {getters.pagination|(function(*))|state.pagination|{totalItems, rowsPerPageItems, sortBy, page, rowsPerPage, descending}|__webpack_exports__.default.props.pagination|{default, type}|*}
+   */
   pagination: function pagination(state) {
     return state.pagination;
   },
+
+  /**
+   * Return template items
+   * @param state
+   * @returns {*}
+   */
   items: function items(state) {
     return state.items;
   },
+
+  /**
+   * Return database tables
+   *
+   * @param state
+   * @returns {getters.databaseTables|(function(*))|Array|getters.databaseTables|databaseTables}
+   */
   databaseTables: function databaseTables(state) {
     return state.databaseTables;
   },
+
+  /**
+   * return conditions
+   *
+   * @param state
+   * @returns {getters.conditions|(function(*))|default.computed.conditions|{set, get}|Array|conditions|*}
+   */
   conditions: function conditions(state) {
     return state.conditions;
+  },
+
+  /**
+   * Return selected conditions
+   *
+   * @param state
+   * @returns {getters.selectedConditions|(function(*))|Array|selectedConditions|{targetColumns, freetext, operators, sourceColumns}}
+   */
+  selectedConditions: function selectedConditions(state) {
+    return state.selectedConditions;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (getters);
@@ -67830,6 +67922,16 @@ var mutations = {
   },
 
   /**
+   * Set selected conditions
+   *
+   * @param state
+   * @param selectedConditions
+   */
+  _setSelectedConditions: function _setSelectedConditions(state, selectedConditions) {
+    state.selectedConditions = selectedConditions;
+  },
+
+  /**
    * Sets pagunation
    *
    * @param state
@@ -67855,6 +67957,12 @@ __webpack_require__.r(__webpack_exports__);
 var state = {
   currentTemplate: null,
   currentImportTable: [],
+  selectedConditions: {
+    sourceColumns: [],
+    targetColumns: [],
+    operators: [],
+    freetext: []
+  },
   databaseTables: [],
   conditions: [],
   pagination: {

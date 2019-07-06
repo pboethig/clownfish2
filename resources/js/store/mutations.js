@@ -65,6 +65,16 @@ let mutations = {
     _createTemplate(state, template) {
         state.items.push(template);
     },
+
+    /**
+     * Set selected conditions
+     *
+     * @param state
+     * @param selectedConditions
+     */
+    _setSelectedConditions(state, selectedConditions) {
+        state.selectedConditions = selectedConditions;
+    },
     /**
      * Sets pagunation
      *
@@ -74,6 +84,8 @@ let mutations = {
     setPagination (state, payload) {
         state.pagination = payload
     },
+
+
 };
 
 export default mutations

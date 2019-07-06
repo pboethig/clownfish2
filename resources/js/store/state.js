@@ -1,6 +1,7 @@
 let state = {
     currentTemplate:null,
     currentImportTable:[],
+    selectedConditions:{sourceColumns:[],targetColumns:[],operators:[],freetext:[]},
     databaseTables:[],
     conditions:[],
     pagination: {
