@@ -2259,6 +2259,51 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -24741,262 +24786,373 @@ var render = function() {
                 "v-tab-item",
                 { staticStyle: { padding: "10px" } },
                 [
-                  _c("v-card-title", [
-                    _vm.currentImportTable.length && _vm.currentTemplate
-                      ? _c("h2", [
-                          _vm._v(
-                            'Edit Column Mapping of table: "' +
-                              _vm._s(_vm.currentTemplate.import_table) +
-                              '"'
-                          )
-                        ])
-                      : _c("h2", [
-                          _vm._v(
-                            'No Datafile found. Please upload a datafile under "Basedata"'
-                          )
-                        ])
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "v-container",
-                    { attrs: { fluid: "" } },
+                    "v-tabs",
+                    {
+                      attrs: {
+                        color: "orange",
+                        dark: "",
+                        "slider-color": "yellow"
+                      }
+                    },
                     [
+                      _c("v-tab", { attrs: { ripple: "" } }, [
+                        _vm._v(
+                          "\n                        Conditional mapping\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-tab", { attrs: { ripple: "" } }, [
+                        _vm._v(
+                          "\n                        Simple mapping\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
                       _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
+                        "v-tab-item",
                         [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "blue", outline: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.addCondition()
-                                }
-                              }
-                            },
-                            [_vm._v("Add Condition")]
-                          ),
+                          _c("v-card-title", [
+                            _vm.currentImportTable.length && _vm.currentTemplate
+                              ? _c("h2", [
+                                  _vm._v(
+                                    'Edit Column Mapping of table: "' +
+                                      _vm._s(_vm.currentTemplate.import_table) +
+                                      '"'
+                                  )
+                                ])
+                              : _c("h2", [
+                                  _vm._v(
+                                    'No Datafile found. Please upload a datafile under "Basedata"'
+                                  )
+                                ])
+                          ]),
                           _vm._v(" "),
                           _c(
-                            "v-layout",
-                            { attrs: { row: "", xs12: "", wrap: "" } },
+                            "v-container",
+                            { attrs: { fluid: "" } },
                             [
                               _c(
                                 "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs2: "", md2: "", lg3: "" }
-                                },
-                                _vm._l(_vm.conditions, function(column, key) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
-                                        [
-                                          _c("v-select", {
-                                            attrs: {
-                                              items: column.sourceColumns,
-                                              label: "source"
-                                            },
-                                            model: {
-                                              value: column.sourceColumns[key],
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  column.sourceColumns,
-                                                  key,
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "column.sourceColumns[key]"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs1: "", md1: "", lg1: "" }
-                                },
-                                _vm._l(_vm.conditions, function(column, key) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
-                                        [
-                                          _c("v-select", {
-                                            attrs: {
-                                              items: column.operators,
-                                              label: "operators"
-                                            },
-                                            model: {
-                                              value: column.operators[key],
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  column.operators,
-                                                  key,
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "column.operators[key]"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs2: "", md3: "", lg3: "" }
-                                },
-                                _vm._l(_vm.conditions, function(column, key) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
-                                        [
-                                          _c("v-select", {
-                                            attrs: {
-                                              items: column.targetColumns,
-                                              label: "target"
-                                            },
-                                            model: {
-                                              value: column.targetColumns[key],
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  column.targetColumns,
-                                                  key,
-                                                  $$v
-                                                )
-                                              },
-                                              expression:
-                                                "column.targetColumns[key]"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs2: "", md1: "", lg1: "" }
-                                },
-                                _vm._l(_vm.conditions, function(column, key) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
-                                        [
-                                          _c("v-select", {
-                                            attrs: {
-                                              items: ["or"],
-                                              label: "or"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs1: "", md1: "", lg1: "" }
-                                },
-                                _vm._l(_vm.conditions, function(column, key) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
-                                        [
-                                          _c("v-text-field", {
-                                            attrs: {
-                                              small: "",
-                                              label: "Freetext"
-                                            },
-                                            model: {
-                                              value: column.freetext,
-                                              callback: function($$v) {
-                                                _vm.$set(
-                                                  column,
-                                                  "freetext",
-                                                  $$v
-                                                )
-                                              },
-                                              expression: "column.freetext"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                }),
-                                0
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                {
-                                  staticStyle: { margin: "5px" },
-                                  attrs: { xs2: "", md3: "", lg1: "" }
-                                },
-                                _vm._l(_vm.conditions, function(item, index) {
-                                  return _vm.conditions
-                                    ? _c(
-                                        "div",
+                                { attrs: { xs12: "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "blue", outline: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.addCondition()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Add Condition")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "", xs12: "", wrap: "" } },
+                                    [
+                                      _c(
+                                        "v-flex",
                                         {
-                                          staticStyle: {
-                                            margin: "10px 0 0 0",
-                                            pading: "0"
-                                          }
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs2: "", md2: "", lg3: "" }
                                         },
-                                        [
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              staticStyle: {
-                                                margin: "0px 0 30px 0"
-                                              },
-                                              attrs: {
-                                                color: "blue",
-                                                outline: ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.deleteCondition(
-                                                    index
+                                        _vm._l(_vm.conditions, function(
+                                          column,
+                                          key
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c("v-select", {
+                                                    attrs: {
+                                                      items:
+                                                        column.sourceColumns,
+                                                      label: "source"
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        column.sourceColumns[
+                                                          key
+                                                        ],
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          column.sourceColumns,
+                                                          key,
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "column.sourceColumns[key]"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs1: "", md1: "", lg1: "" }
+                                        },
+                                        _vm._l(_vm.conditions, function(
+                                          column,
+                                          key
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c("v-select", {
+                                                    attrs: {
+                                                      items: column.operators,
+                                                      label: "operators"
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        column.operators[key],
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          column.operators,
+                                                          key,
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "column.operators[key]"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs2: "", md3: "", lg3: "" }
+                                        },
+                                        _vm._l(_vm.conditions, function(
+                                          column,
+                                          key
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c("v-select", {
+                                                    attrs: {
+                                                      items:
+                                                        column.targetColumns,
+                                                      label: "target"
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        column.targetColumns[
+                                                          key
+                                                        ],
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          column.targetColumns,
+                                                          key,
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "column.targetColumns[key]"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs2: "", md1: "", lg1: "" }
+                                        },
+                                        _vm._l(_vm.conditions, function(
+                                          column,
+                                          key
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c("v-select", {
+                                                    attrs: {
+                                                      items: ["or"],
+                                                      label: "or"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs1: "", md1: "", lg1: "" }
+                                        },
+                                        _vm._l(_vm.conditions, function(
+                                          column,
+                                          key
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                [
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      small: "",
+                                                      label: "Freetext"
+                                                    },
+                                                    model: {
+                                                      value: column.freetext,
+                                                      callback: function($$v) {
+                                                        _vm.$set(
+                                                          column,
+                                                          "freetext",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "column.freetext"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticStyle: { margin: "5px" },
+                                          attrs: { xs2: "", md3: "", lg1: "" }
+                                        },
+                                        _vm._l(_vm.conditions, function(
+                                          item,
+                                          index
+                                        ) {
+                                          return _vm.conditions
+                                            ? _c(
+                                                "div",
+                                                {
+                                                  staticStyle: {
+                                                    margin: "10px 0 0 0",
+                                                    pading: "0"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticStyle: {
+                                                        margin: "0px 0 30px 0"
+                                                      },
+                                                      attrs: {
+                                                        color: "blue",
+                                                        outline: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.deleteCondition(
+                                                            index
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
                                                   )
-                                                }
-                                              }
-                                            },
-                                            [_vm._v("Delete")]
-                                          )
-                                        ],
-                                        1
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        }),
+                                        0
                                       )
-                                    : _vm._e()
-                                }),
-                                0
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tab-item",
+                        { staticStyle: { padding: "10px" } },
+                        [
+                          _c("v-card-title", [
+                            _c("h2", [_vm._v('Simple mappings"')])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-flex",
+                                { attrs: { xs12: "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "blue", outline: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.addSimpleMappings()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Add simple mapping")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "", xs12: "", wrap: "" } },
+                                    [
+                                      _c("v-flex", {
+                                        staticStyle: { margin: "5px" },
+                                        attrs: { xs2: "", md2: "", lg3: "" }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1

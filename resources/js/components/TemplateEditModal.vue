@@ -16,7 +16,7 @@
                     <v-card-title v-if="currentTemplate">
                         <h2>Edit Template "{{currentTemplate.name}}"</h2>
                     </v-card-title>
-                    <!-- Snackbar -->
+                    
                     <v-card-text>
                         <v-divider/>
                         <v-flex xs12 sm6 md3 v-if="currentTemplate">
@@ -68,69 +68,114 @@
 
 
                 <v-tab-item style="padding: 10px">
-                    <v-card-title>
-                        <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{
-                            currentTemplate.import_table}}"</h2>
-                        <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
-                    </v-card-title>
-                    <v-container fluid>
-                            <v-flex xs12>
-                                <v-btn color="blue" outline @click="addCondition()">Add Condition</v-btn>
-                                <v-layout row xs12  wrap>
-                                    <v-flex xs2 md2 lg3 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key) in conditions">
-                                             <v-select
-                                                    :items="column.sourceColumns"
-                                                    label="source"
-                                                    v-model="column.sourceColumns[key]"
-                                            ></v-select>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs1 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key) in conditions">
-                                            <v-select
-                                                    :items="column.operators"
-                                                    label="operators"
-                                                    v-model="column.operators[key]"
-                                            ></v-select>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs2 md3 lg3 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key) in conditions">
-                                            <v-select
-                                                    :items="column.targetColumns"
-                                                    label="target"
-                                                    v-model="column.targetColumns[key]"
-                                            ></v-select>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs2 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key) in conditions">
-                                            <v-select
-                                                    :items="['or']"
-                                                    label="or"
-                                            ></v-select>
-                                        </div>
-                                    </v-flex>
-                                    <v-flex xs1 md1 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(column,key) in conditions">
-                                            <v-text-field
-                                                          small label="Freetext"
-                                                          v-model="column.freetext"
-                                            ></v-text-field>
-                                        </div>
 
-                                    </v-flex>
 
-                                    <v-flex xs2 md3 lg1 style="margin: 5px">
-                                        <div v-if="conditions" v-for="(item,index) in conditions" style="margin:10px 0 0 0;height30px;pading:0;">
-                                            <v-btn style="margin:0px 0 30px 0" color="blue" outline @click="deleteCondition(index)">Delete</v-btn>
-                                        </div>
 
-                                    </v-flex>
-                                </v-layout>
-                            </v-flex>
-                    </v-container>
+
+                    <v-tabs
+                            color="orange"
+                            dark
+                            slider-color="yellow">
+                        <v-tab ripple>
+                            Conditional mapping
+                        </v-tab>
+                        <v-tab ripple>
+                            Simple mapping
+                        </v-tab>
+                        <v-tab-item>
+
+                            <v-card-title>
+                                <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table: "{{
+                                    currentTemplate.import_table}}"</h2>
+                                <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
+                            </v-card-title>
+                            <v-container fluid>
+                                <v-flex xs12>
+                                    <v-btn color="blue" outline @click="addCondition()">Add Condition</v-btn>
+                                    <v-layout row xs12  wrap>
+                                        <v-flex xs2 md2 lg3 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(column,key) in conditions">
+                                                <v-select
+                                                        :items="column.sourceColumns"
+                                                        label="source"
+                                                        v-model="column.sourceColumns[key]"
+                                                ></v-select>
+                                            </div>
+                                        </v-flex>
+                                        <v-flex xs1 md1 lg1 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(column,key) in conditions">
+                                                <v-select
+                                                        :items="column.operators"
+                                                        label="operators"
+                                                        v-model="column.operators[key]"
+                                                ></v-select>
+                                            </div>
+                                        </v-flex>
+                                        <v-flex xs2 md3 lg3 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(column,key) in conditions">
+                                                <v-select
+                                                        :items="column.targetColumns"
+                                                        label="target"
+                                                        v-model="column.targetColumns[key]"
+                                                ></v-select>
+                                            </div>
+                                        </v-flex>
+                                        <v-flex xs2 md1 lg1 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(column,key) in conditions">
+                                                <v-select
+                                                        :items="['or']"
+                                                        label="or"
+                                                ></v-select>
+                                            </div>
+                                        </v-flex>
+                                        <v-flex xs1 md1 lg1 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(column,key) in conditions">
+                                                <v-text-field
+                                                        small label="Freetext"
+                                                        v-model="column.freetext"
+                                                ></v-text-field>
+                                            </div>
+
+                                        </v-flex>
+
+                                        <v-flex xs2 md3 lg1 style="margin: 5px">
+                                            <div v-if="conditions" v-for="(item,index) in conditions" style="margin:10px 0 0 0;height30px;pading:0;">
+                                                <v-btn style="margin:0px 0 30px 0" color="blue" outline @click="deleteCondition(index)">Delete</v-btn>
+                                            </div>
+
+                                        </v-flex>
+                                    </v-layout>
+                                </v-flex>
+                            </v-container>
+                        </v-tab-item>
+
+
+                        <v-tab-item style="padding: 10px">
+                            <v-card-title>
+                                <h2>Simple mappings"</h2>
+                            </v-card-title>
+                            <v-container fluid>
+                                <v-flex xs12>
+                                    <v-btn color="blue" outline @click="addSimpleMappings()">Add simple mapping</v-btn>
+                                    <v-layout row xs12  wrap>
+                                        <v-flex xs2 md2 lg3 style="margin: 5px">
+
+
+                                        </v-flex>
+                                    </v-layout>
+                                </v-flex>
+                            </v-container>
+                        </v-tab-item>
+
+                    </v-tabs>
+
+
+
+
+
+
+
+
                 </v-tab-item>
                 <v-card-actions>
                     <v-btn color="primary" outline @click.stop="show=false">Close</v-btn>
