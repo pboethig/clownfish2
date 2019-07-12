@@ -8,6 +8,7 @@
                 <ul class="navbar-nav">
                     <router-link :to="{ name: 'templates' }" class="nav-link">Templates</router-link>
                     <router-link :to="{ name: 'contact' }" class="nav-link" >Contact</router-link>
+                    <router-link :to="{ name: 'video' }" class="nav-link" >Video</router-link>
                 </ul>
             </div>
         </nav>

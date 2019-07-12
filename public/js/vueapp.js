@@ -1737,6 +1737,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 ;
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
@@ -2290,8 +2291,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2301,9 +2300,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       select: ['sdasdsa', 'sadasd'],
       importUrl: '',
-      dropExistingData: false,
-      sourceColumns: [],
-      targetColumns: []
+      dropExistingData: false
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['currentTemplate', 'pagination', 'items', 'templates', 'databaseTables', 'currentImportTable', 'selectedConditions']), {
@@ -2337,8 +2334,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      * Save conditions
      */
     saveConditions: function saveConditions() {
-      console.log(this.selectedConditions);
-      this.$store.dispatch('setSelectedConditions', this.selectedConditions);
+      alert("111");
+      console.log("----------------------------------");
+      console.log(this.selectedConditions.definition);
+      this.$store.dispatch('saveConditions', this.selectedConditions);
     },
 
     /**
@@ -2361,6 +2360,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         'targetColumns': this.$store.getters.currentImportTable,
         'freetext': 'test'
       });
+      console.log(this.conditions);
       this.$store.dispatch("setConditions", this.conditions);
     },
 
@@ -2488,6 +2488,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /*!********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Templates.vue?vue&type=script&lang=js& ***!
   \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TemplateEditGrid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TemplateEditGrid */ "./resources/js/components/TemplateEditGrid.vue");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/index */ "./resources/js/store/index.js");
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  store: _store_index__WEBPACK_IMPORTED_MODULE_1__["default"],
+  name: 'Templates',
+  data: function data() {
+    return {};
+  },
+  components: {
+    TemplateEditGrid: _TemplateEditGrid__WEBPACK_IMPORTED_MODULE_0__["default"],
+    store: _store_index__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  methods: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Video.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Video.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -24046,6 +24079,12 @@ var render = function() {
                 "router-link",
                 { staticClass: "nav-link", attrs: { to: { name: "contact" } } },
                 [_vm._v("Contact")]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                { staticClass: "nav-link", attrs: { to: { name: "video" } } },
+                [_vm._v("Video")]
               )
             ],
             1
@@ -24812,7 +24851,7 @@ var render = function() {
                             _vm.currentImportTable.length && _vm.currentTemplate
                               ? _c("h2", [
                                   _vm._v(
-                                    'Edit Column Mapping of table:\n                                "' +
+                                    'Edit Column Mapping of table:"' +
                                       _vm._s(_vm.currentTemplate.import_table) +
                                       '"'
                                   )
@@ -24872,17 +24911,18 @@ var render = function() {
                                                     model: {
                                                       value:
                                                         _vm.selectedConditions
-                                                          .sourceColumns[key],
+                                                          .definition
+                                                          .sourceColumns,
                                                       callback: function($$v) {
                                                         _vm.$set(
                                                           _vm.selectedConditions
-                                                            .sourceColumns,
-                                                          key,
+                                                            .definition,
+                                                          "sourceColumns",
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "selectedConditions.sourceColumns[key]"
+                                                        "selectedConditions.definition.sourceColumns"
                                                     }
                                                   })
                                                 ],
@@ -24915,17 +24955,19 @@ var render = function() {
                                                     model: {
                                                       value:
                                                         _vm.selectedConditions
+                                                          .definition
                                                           .targetColumns[key],
                                                       callback: function($$v) {
                                                         _vm.$set(
                                                           _vm.selectedConditions
+                                                            .definition
                                                             .targetColumns,
                                                           key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "selectedConditions.targetColumns[key]"
+                                                        "selectedConditions.definition.targetColumns[key]"
                                                     }
                                                   })
                                                 ],
@@ -24959,17 +25001,20 @@ var render = function() {
                                                     model: {
                                                       value:
                                                         _vm.selectedConditions
-                                                          .operators[key],
+                                                          .definition.operators[
+                                                          key
+                                                        ],
                                                       callback: function($$v) {
                                                         _vm.$set(
                                                           _vm.selectedConditions
+                                                            .definition
                                                             .operators,
                                                           key,
                                                           $$v
                                                         )
                                                       },
                                                       expression:
-                                                        "selectedConditions.operators[key]"
+                                                        "selectedConditions.definition.operators[key]"
                                                     }
                                                   })
                                                 ],
@@ -25245,6 +25290,30 @@ render._withStripped = true
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Templates.vue?vue&type=template&id=240b28de& ***!
   \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_c("TemplateEditGrid")], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0& ***!
+  \********************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -67533,6 +67602,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Video.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Video.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Video.vue?vue&type=template&id=21c9d7a0& */ "./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0&");
+/* harmony import */ var _Video_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Video.vue?vue&type=script&lang=js& */ "./resources/js/components/Video.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Video_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Video.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Video.vue?vue&type=script&lang=js&":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/Video.vue?vue&type=script&lang=js& ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Video_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Video.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Video.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Video_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0& ***!
+  \**************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Video.vue?vue&type=template&id=21c9d7a0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Video.vue?vue&type=template&id=21c9d7a0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Video_vue_vue_type_template_id_21c9d7a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/store/actions.js":
 /*!***************************************!*\
   !*** ./resources/js/store/actions.js ***!
@@ -67660,6 +67798,20 @@ var actions = {
    */
   setSelectedConditions: function setSelectedConditions(context, selectedConditions) {
     context.commit("_setSelectedConditions", selectedConditions);
+  },
+
+  /**
+   * Save conditions
+   *
+   * @param context
+   * @param conditions
+   */
+  saveConditions: function saveConditions(context, conditions) {
+    axios.post('/api/conditions/', conditions).then(function (response) {//context.commit('_set', {items, totalItems})
+    })["catch"](function (error) {
+      console.log(error);
+      alert('FAILURE Uploading');
+    });
   },
 
   /**
@@ -67958,10 +68110,15 @@ var state = {
   currentTemplate: null,
   currentImportTable: [],
   selectedConditions: {
-    sourceColumns: [],
-    targetColumns: [],
-    operators: [],
-    freetext: []
+    template_id: null,
+    created_at: null,
+    updated_at: null,
+    definition: {
+      sourceColumns: [],
+      targetColumns: [],
+      operators: [],
+      freetext: []
+    }
   },
   databaseTables: [],
   conditions: [],
@@ -67994,12 +68151,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/App */ "./resources/js/components/App.vue");
 /* harmony import */ var _components_Templates__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Templates */ "./resources/js/components/Templates.vue");
-/* harmony import */ var _components_Contact__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Contact */ "./resources/js/components/Contact.vue");
-/* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/index.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/dist/vuetify.js");
-/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/dist/vuetify.min.css */ "./node_modules/vuetify/dist/vuetify.min.css");
-/* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _components_Video__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Video */ "./resources/js/components/Video.vue");
+/* harmony import */ var _components_Contact__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Contact */ "./resources/js/components/Contact.vue");
+/* harmony import */ var vue_sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-sweetalert2 */ "./node_modules/vue-sweetalert2/dist/index.js");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify */ "./node_modules/vuetify/dist/vuetify.js");
+/* harmony import */ var vuetify__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vuetify__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/dist/vuetify.min.css */ "./node_modules/vuetify/dist/vuetify.min.css");
+/* harmony import */ var vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vuetify_dist_vuetify_min_css__WEBPACK_IMPORTED_MODULE_9__);
+
 
 
 
@@ -68011,9 +68170,9 @@ window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_6__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_7__["default"]);
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_7___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_8___default.a);
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   mode: 'hash',
@@ -68027,9 +68186,16 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
   }, {
     path: '/contact',
     name: 'contact',
-    component: _components_Contact__WEBPACK_IMPORTED_MODULE_5__["default"],
+    component: _components_Contact__WEBPACK_IMPORTED_MODULE_6__["default"],
     props: {
       title: "Contact"
+    }
+  }, {
+    path: '/video',
+    name: 'video',
+    component: _components_Video__WEBPACK_IMPORTED_MODULE_5__["default"],
+    props: {
+      title: "Video"
     }
   }]
 });

@@ -80,9 +80,7 @@
                         </v-tab>
                         <v-tab-item>
                             <v-card-title>
-                                <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table:
-                                    "{{
-                                    currentTemplate.import_table}}"</h2>
+                                <h2 v-if="currentImportTable.length && currentTemplate">Edit Column Mapping of table:"{{currentTemplate.import_table}}"</h2>
                                 <h2 v-else>No Datafile found. Please upload a datafile under "Basedata"</h2>
                             </v-card-title>
                             <v-container fluid>
@@ -94,7 +92,7 @@
                                                 <v-select
                                                         :items="column.sourceColumns"
                                                         label="source"
-                                                        v-model="selectedConditions.sourceColumns[key]"
+                                                        v-model="selectedConditions.definition.sourceColumns"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -103,7 +101,7 @@
                                                 <v-select
                                                         :items="column.operators"
                                                         label="operators"
-                                                        v-model="selectedConditions.targetColumns[key]"
+                                                        v-model="selectedConditions.definition.targetColumns[key]"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -112,7 +110,7 @@
                                                 <v-select
                                                         :items="column.targetColumns"
                                                         label="target"
-                                                        v-model="selectedConditions.operators[key]"
+                                                        v-model="selectedConditions.definition.operators[key]"
                                                 ></v-select>
                                             </div>
                                         </v-flex>
@@ -187,8 +185,6 @@
                 select: ['sdasdsa', 'sadasd'],
                 importUrl: '',
                 dropExistingData: false,
-                sourceColumns: [],
-                targetColumns: [],
             }
         },
 
@@ -231,11 +227,11 @@
              */
             saveConditions() {
 
-                console.log(this.selectedConditions);
+                alert("111");
+                console.log("----------------------------------");
+                console.log(this.selectedConditions.definition);
 
-                this.$store.dispatch('setSelectedConditions', this.selectedConditions)
-
-
+                this.$store.dispatch('saveConditions', this.selectedConditions)
             },
 
             /**
@@ -253,12 +249,17 @@
              */
             addCondition() {
 
+
                 this.conditions.push({
                     'sourceColumns': this.$store.getters.currentImportTable,
                     operators: this.operators,
                     'targetColumns': this.$store.getters.currentImportTable,
                     'freetext': 'test'
                 });
+
+                console.log(this.conditions);
+
+
                 this.$store.dispatch("setConditions", this.conditions);
             },
             /**

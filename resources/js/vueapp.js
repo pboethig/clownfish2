@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import App from './components/App'
 import Templates from './components/Templates'
+import Video from './components/Video'
 import Contact from './components/Contact'
 import VueSweetalert2 from 'vue-sweetalert2';
 
@@ -33,6 +34,14 @@ const router = new VueRouter({
             component: Contact,
             props: {
                 title: "Contact",
+            }
+        },
+        {
+            path: '/video',
+            name: 'video',
+            component: Video,
+            props: {
+                title: "Video",
             }
         },
     ],

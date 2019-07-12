@@ -1,7 +1,18 @@
 let state = {
     currentTemplate:null,
     currentImportTable:[],
-    selectedConditions:{sourceColumns:[],targetColumns:[],operators:[],freetext:[]},
+    selectedConditions:{
+        template_id:null,
+        created_at:null,
+        updated_at:null,
+        definition:
+        {
+            sourceColumns:[],
+            targetColumns:[],
+            operators:[],
+            freetext:[]
+        },
+    },
     databaseTables:[],
     conditions:[],
     pagination: {

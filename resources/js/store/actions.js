@@ -123,13 +123,37 @@ let actions = {
     },
 
     /**
+     * Save conditions
+     *
+     * @param context
+     * @param conditions
+     */
+    saveConditions(context, conditions)
+    {
+        axios.post('/api/conditions/', conditions
+
+        ).then(response => {
+
+            //context.commit('_set', {items, totalItems})
+
+        }).catch(function (error) {
+
+            console.log(error);
+
+            alert('FAILURE Uploading');
+        });
+
+    },
+
+
+    /**
      * Query templates
      *
      * @param context
      * @param searchTerm
      * @returns {Promise<any>}
      */
-    queryItems (context, searchTerm) {
+        queryItems(context, searchTerm) {
 
         return new Promise((resolve, reject) => {
 
